@@ -1,0 +1,44 @@
+{
+  "name": "hosting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc --project ./catAPI & cd ./cat-app & yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoseMagura/HostingProject.git"
+  },
+  "author": "Rose Magura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoseMagura/HostingProject/issues"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
+  },
+  "homepage": "https://github.com/RoseMagura/HostingProject#readme",
+  "devDependencies": {
+    "@babel/core": "^7.13.1",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-syntax-jsx": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.12.17",
+    "@babel/plugin-transform-runtime": "^7.13.7",
+    "@babel/preset-env": "^7.13.5",
+    "@babel/preset-react": "^7.12.13",
+    "@testing-library/react": "^11.2.5",
+    "babel-jest": "^26.6.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1"
+  },
+  "dependencies": {
+    "jest": "^26.6.0",
+    "react": "^17.0.1",
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.2.2"
+  }
+}

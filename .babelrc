@@ -1,0 +1,11 @@
+{
+    "presets": ["env", "@babel/preset-react"],
+    "test": [
+        "jest"
+    ],
+    "plugins": [
+        ["@babel/plugin-syntax-js"],
+        ["@babel/plugin-proposal-class-properties", { "loose": true }]
+      ]
+  }
+  
