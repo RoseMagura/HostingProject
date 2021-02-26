@@ -1,4 +1,4 @@
-const database = require('../../catAPI/dist/initDB');
+const database = require('../catAPI/dist/initDB');
 
 // test getting all
 test('test getting images from database', async (done) => {
