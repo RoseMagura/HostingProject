@@ -12,7 +12,28 @@ const pool = new Pool({
 
 export const query = (statement: string): any => {
     try {
-        return pool.query(statement);
+        const result = pool.query(statement);
+        pool.end();
+        return result;
+    } catch (error: unknown) {
+        console.log(error);
+    }
+};
+
+export const testQuery = (statement: string, user: string, host: string, database: string, password: string, port: number): any => {
+    const testPool = new Pool({
+        user,
+        host,
+        database,
+        password,
+        port,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+    });
+    try {
+        const result = testPool.query(statement);
+        testPool.end();
+        return result;
     } catch (error: unknown) {
         console.log(error);
     }
@@ -31,7 +52,12 @@ export const setUp = async(): Promise<void> => {
     if(currImages.rowCount === 0) {
         console.log('Setting up DB');
         images.forEach(async(item) => {
-            await query(`INSERT INTO IMAGES (title, url) VALUES('${item[0]}', '${item[1]}');`);
+            try {
+                const res = await query(`INSERT INTO IMAGES (title, url) VALUES('${item[0]}', '${item[1]}');`);
+                console.log(res);
+            } catch (error) {
+                console.error(error)   
+            }
         });
     } else {
         console.log('DB already set up.');

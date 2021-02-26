@@ -16,11 +16,6 @@
   "bugs": {
     "url": "https://github.com/RoseMagura/HostingProject/issues"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    }
-  },
   "homepage": "https://github.com/RoseMagura/HostingProject#readme",
   "devDependencies": {
     "@babel/core": "^7.13.1",
