@@ -1,6 +1,13 @@
-import {testQuery} from '../catAPI/src/initDB';
+import { testQuery } from '../catAPI/src/initDB';
 import * as dotenv from 'dotenv';
+
 dotenv.config();
+
+interface imageObject {
+    id: number;
+    title: string;
+    url: string;
+}
 
 // test getting all
 test('test getting images from database', async (done) => {
@@ -14,7 +21,7 @@ test('test getting images from database', async (done) => {
     );
     expect(response.rows).toBeDefined();
     expect(response.rows.length).toBeGreaterThan(0);
-    response.rows.forEach((element) => {
+    response.rows.forEach((element: imageObject) => {
         expect(element.id).toBeDefined();
         expect(typeof element.id).toBe('number');
         expect(element.title).toBeDefined();
@@ -36,7 +43,7 @@ test('test getting image by id from database', async (done) => {
         process.env.PGPASSWORD,
         Number(process.env.PGPORT)
     );
-    // then, pick the first one's id (instead of using hard coded 
+    // then, pick the first one's id (instead of using hard coded
     // number for id)
     // so even if the ids change,
     // the test will still pass
@@ -51,7 +58,7 @@ test('test getting image by id from database', async (done) => {
     );
     expect(response.rows).toBeDefined();
     expect(response.rows.length).toBeGreaterThan(0);
-    response.rows.forEach((element) => {
+    response.rows.forEach((element: imageObject) => {
         expect(element.id).toBeDefined();
         expect(typeof element.id).toBe('number');
         expect(element.title).toBeDefined();
