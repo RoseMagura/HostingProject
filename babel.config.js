@@ -1,6 +1,6 @@
 module.exports =
 {
-    "presets": ["env", "@babel/preset-react"],
+    "presets": ["env", "@babel/preset-react", '@babel/preset-typescript'],
     "test": [
         "jest"
     ],
@@ -8,10 +8,7 @@ module.exports =
         ["@babel/plugin-transform-react-jsx"],
         ["@babel/plugin-syntax-jsx"], 
         ["@babel/plugin-transform-runtime"],
+        ["@babel/plugin-transform-typescript"]
         ["@babel/plugin-proposal-class-properties", { "loose": true }]
       ]
   };
-//  {
-//     presets: [['@babel/preset-env', {targets: {node: 'current'}}]],
-//     plugins: ["@babel/plugin-syntax-jsx"]
-// };
