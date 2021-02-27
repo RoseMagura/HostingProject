@@ -2,6 +2,10 @@
 // const dotenv = require('dotenv');
 // dotenv.config();
 
+test('', () => {
+    expect(1).toBe(1);
+})
+
 // // test getting all
 // test('test getting images from database', async (done) => {
 //     const response = await database.testQuery(
