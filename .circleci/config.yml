@@ -3,7 +3,6 @@ orbs:
   node: circleci/node@4.2.0
 jobs:
   build:
-    
     # Primary container image where all commands run
     
     docker:
@@ -26,10 +25,11 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
       - run: whoami
+      - run: node/install-npm
       - run: |
           psql \
           -d $TEST_DATABASE_URL \
-          -c "CREATE TABLE images (title char(250), url char(500));"
+          -c "CREATE TABLE images (title char(250), url char(500));"\  
       - run:
           name: Install JUnit coverage reporter
           command: npm i --save-dev jest-junit
