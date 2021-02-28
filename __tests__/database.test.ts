@@ -11,6 +11,7 @@ interface imageObject {
 
 // test getting all
 test('test getting images from database', async (done) => {
+    console.log('user environment variable', process.env.PGUSER);
     const response = await testQuery(
         'SELECT * FROM IMAGES;',
         process.env.PGUSER,
