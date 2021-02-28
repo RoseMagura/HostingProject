@@ -10,7 +10,7 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
         environment:
-          TEST_DATABASE_URL: postgresql://root@localhost/cattest
+          TEST_DATABASE_URL: postgresql://root@localhost/circle_test
           
     # Service container image
     
@@ -26,8 +26,5 @@ jobs:
       - run: whoami
       - run: |
           psql \
-          "CREATE DATABASE $PGDATABASE;" \
-      - run: |
-          psql \
-          -d $PGDATABASE \
-          -c "CREATE TABLE test (name char(25));"
+          -d $TEST_DATABASE_URL \
+          -c "CREATE TABLE images (title char(250), url char(500));"
