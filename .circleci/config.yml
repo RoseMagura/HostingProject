@@ -30,7 +30,7 @@ jobs:
           -c "CREATE TABLE images (title char(250), url char(500));"
       - run:
           name: Install JUnit coverage reporter
-          command: yarn add --dev jest-junit
+          command: npm i --save-dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
           command: jest --ci --runInBand --reporters=default --reporters=jest-junit
