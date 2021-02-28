@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "frontend:install": "cd cat-app && yarn install",
+    "frontend:install": "cd cat-app && npm install",
     "backend:install": "cd catAPI && npm install",
     "build": "tsc --project ./catAPI & cd ./cat-app & yarn build"
   },
