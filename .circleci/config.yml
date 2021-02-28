@@ -2,6 +2,7 @@ version: 2
 orbs:
   node: circleci/node@4.2.0
 jobs:
+
   build:
     # Primary container image where all commands run
 
@@ -30,7 +31,6 @@ jobs:
           psql \
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE images (title char(250), url char(500));"\  
-workflows:
-  node-tests:
-    jobs:
-      - node/test
+
+    test:
+    - node/test 
