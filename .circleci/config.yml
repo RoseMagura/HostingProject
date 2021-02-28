@@ -23,7 +23,17 @@ jobs:
 
     # Download postgreSQL client and set up table for testing
     steps:
+      - node/install
       - checkout
+      - run: 
+          name: Front-End Install
+          command: 
+            npm run frontend:install 
+      - run: 
+          name: Back-End Install
+          command: 
+            npm run backend:install 
+      - run: npm run build
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
       - run: whoami
@@ -31,6 +41,7 @@ jobs:
           psql \
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE images (title char(250), url char(500));"\  
+      - run: npm run test
 
     test:
     - node/test 
