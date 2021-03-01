@@ -32,6 +32,7 @@ jobs:
           name: Back-End Install
           command: 
             npm run backend:install 
+      - run: npm install # install jest and dependencies for root
       - run: npm run frontend:build
       - run: npm run backend:build
       - run: sudo apt-get update
