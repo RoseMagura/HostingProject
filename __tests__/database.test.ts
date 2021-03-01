@@ -1,4 +1,4 @@
-import { testQuery } from '../catAPI/src/initDB';
+import { testQuery, setUp } from '../catAPI/src/initDB';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,9 +9,12 @@ interface imageObject {
     url: string;
 }
 
+beforeAll(() => {
+    setUp();
+})
+
 // test getting all
 test('test getting images from database', async (done) => {
-    console.log('user environment variable', process.env.PGUSER);
     const response = await testQuery(
         'SELECT * FROM IMAGES;',
         process.env.PGUSER,
