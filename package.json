@@ -7,7 +7,8 @@
     "test": "jest",
     "frontend:install": "cd cat-app && npm install",
     "backend:install": "cd catAPI && npm install",
-    "build": "tsc --project ./catAPI & cd ./cat-app & yarn build"
+    "frontend:build": "cd cat-app && npm run build",
+    "backend:build": "cd catAPI && npm run build"
   },
   "repository": {
     "type": "git",

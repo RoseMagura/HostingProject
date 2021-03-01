@@ -32,7 +32,8 @@ jobs:
           name: Back-End Install
           command: 
             npm run backend:install 
-      - run: npm run build
+      - run: npm run frontend:build
+      - run: npm run backend:build
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
       - run: whoami
