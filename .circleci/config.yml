@@ -52,7 +52,7 @@ jobs:
       - run: whoami
       - run: 
           name: Create DB table
-          command: 
+          command: |
             psql \
             -d $TEST_DATABASE_URL \
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
