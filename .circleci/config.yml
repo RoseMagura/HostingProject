@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.2.0
+  aws-cli: circleci/aws-cli@1.3.1
 jobs:
   build:
     # Primary container image where all commands run
@@ -20,10 +21,10 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
 
-    # Download postgreSQL client and set up table for testing
     steps:
       - node/install
       - checkout
+      - aws-cli/setup
       - run: 
           name: Front-End Install
           command: 
@@ -36,6 +37,7 @@ jobs:
       - run: npm run frontend:build
       - run: npm run backend:build
       - run: sudo apt-get update
+       # Download postgreSQL client and set up table for testing
       - run: sudo apt-get install postgresql-client-9.6
       - run: whoami
       - run: |
@@ -43,4 +45,5 @@ jobs:
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       # - run: npm run test
+      # - run: npm run frontend:deploy
 
