@@ -33,17 +33,29 @@ jobs:
           name: Back-End Install
           command: 
             npm run backend:install 
-      - run: npm install # install jest and dependencies for root
-      - run: npm run frontend:build
-      - run: npm run backend:build
-      - run: sudo apt-get update
+      - run: 
+          name: Installing NPM dependencies 
+          command: npm install # install jest and dependencies for root
+      - run: 
+          name: Build Frontend
+          command: npm run frontend:build
+      - run: 
+          name: Build Backend
+          command: npm run backend:build
+      - run: 
+          name: Check for Updates 
+          command: sudo apt-get update
        # Download postgreSQL client and set up table for testing
-      - run: sudo apt-get install postgresql-client-9.6
+      - run: 
+          name: Download PSQL Client
+          command: sudo apt-get install postgresql-client-9.6
       - run: whoami
-      - run: |
+      - run: 
+          name: Create DB table
+          command: |
           psql \
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
-      # - run: npm run test
-      # - run: npm run frontend:deploy
+      # - run: name: Run Jest Tests command: npm run test
+      # - run: name: Deploy to AWS command: npm run frontend:deploy
 
