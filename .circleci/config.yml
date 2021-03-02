@@ -53,8 +53,8 @@ jobs:
       - run: 
           name: Create DB table
           command: |
-          psql \
-          -d $TEST_DATABASE_URL \
-          -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
+            psql \
+            -d $TEST_DATABASE_URL \
+            -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       # - run: name: Run Jest Tests command: npm run test
 
