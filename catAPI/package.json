@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "npm install && tsc && node ./dist/app.js",
     "prod": "tsc && node ./dist/app.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/app.js\"",
@@ -33,6 +33,7 @@
     "cross-fetch": "^3.0.6",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jest": "^26.6.3",
     "pg": "^8.5.1",
     "swagger-jsdoc": "^7.0.0-rc.4",
     "swagger-ui-express": "^4.1.6",

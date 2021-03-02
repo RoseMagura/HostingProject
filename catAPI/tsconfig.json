@@ -13,7 +13,7 @@
     "exclude": [
         "./dist/**/*",
         "node_modules",
-        "spec/**/*",
-        "swagger_dist"
+        "src/**/*.spec.ts",
+        "src/__tests__"
     ]
   }

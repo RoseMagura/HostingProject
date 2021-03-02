@@ -13,26 +13,7 @@ const pool = new Pool({
 export const query = (statement: string): any => {
     try {
         const result = pool.query(statement);
-        // pool.end();
-        return result;
-    } catch (error: unknown) {
-        console.log(error);
-    }
-};
-
-export const testQuery = (statement: string, user: string, host: string, database: string, password: string, port: number): any => {
-    const testPool = new Pool({
-        user,
-        host,
-        database,
-        password,
-        port,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 2000,
-    });
-    try {
-        const result = testPool.query(statement);
-        testPool.end();
+        pool.end();
         return result;
     } catch (error: unknown) {
         console.log(error);
@@ -59,7 +40,5 @@ export const setUp = async(): Promise<void> => {
                 console.error(error)   
             }
         });
-    } else {
-        console.log('DB already set up.');
     }
 }

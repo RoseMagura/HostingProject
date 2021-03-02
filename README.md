@@ -11,9 +11,8 @@ images of cats.
 
 ## Installation
 
-Run `npm install` in the root folder to install the dependencies for 
-the root project, as well as `npm run frontend:install` and 
-`npm run backend:install` to take care of the other dependencies. 
+Run `npm run frontend:install` and 
+`npm run backend:install` to take care of the project dependencies. 
 
 ## Usage
 
