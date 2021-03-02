@@ -14,5 +14,6 @@
         "./dist/**/*",
         "node_modules",
         "spec/**/*",
+        "swagger_dist"
     ]
   }

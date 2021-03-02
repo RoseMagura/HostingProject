@@ -57,5 +57,4 @@ jobs:
           -d $TEST_DATABASE_URL \
           -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       # - run: name: Run Jest Tests command: npm run test
-      # - run: name: Deploy to AWS command: npm run frontend:deploy
 
