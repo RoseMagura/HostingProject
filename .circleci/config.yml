@@ -51,19 +51,19 @@ jobs:
           name: Create DB table
           command: |
             psql \
-            -d $TEST_DATABASE_URL \
+            -d $PGDATABASE \
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       - run:
           name: Populate DB
           command: |
             psql \ 
-            -d $TEST_DATABASE_URL \ 
+            -d $PGDATABASE \ 
             -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
       - run:
           name: Check DB
           command: |
             psql \
-            -d $TEST_DATABASE_URL \
+            -d $PGDATABASE \
             -c "SELECT * FROM TABLE images;"
       - run: 
           name: Run Jest Tests 
