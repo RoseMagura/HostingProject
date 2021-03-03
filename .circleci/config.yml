@@ -57,7 +57,7 @@ jobs:
           name: Populate DB
           command: |
             psql \ 
-            -d $TEST_DATEBASE_URL \ 
+            -d $TEST_DATABASE_URL \ 
             -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
       - run:
           name: Check DB
