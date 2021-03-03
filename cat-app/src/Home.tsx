@@ -55,7 +55,7 @@ class Home extends React.Component {
                     <select onChange={this.fetchById}>
                         <option>Select a title</option>
                         {this.state.allImages.map((i: imageObject) => (
-                            <option value={i.id} key={i.id}>
+                            <option value={i.id} key={i.id} data-testid="select-option">
                                 {i.title}
                             </option>
                         ))}

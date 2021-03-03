@@ -34,9 +34,6 @@ jobs:
           command: 
             npm run backend:install 
       - run: 
-          name: Installing NPM dependencies 
-          command: npm install # install jest and dependencies for root
-      - run: 
           name: Build Frontend
           command: npm run frontend:build
       - run: 
@@ -56,5 +53,7 @@ jobs:
             psql \
             -d $TEST_DATABASE_URL \
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
-      # - run: name: Run Jest Tests command: npm run test
+      - run: 
+        name: Run Jest Tests 
+        command: npm run test
 
