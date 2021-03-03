@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd cat-app npm run test && cd ../catAPI && npm run test",
+    "test": "cd cat-app && npm run test && cd ../catAPI && npm run test",
     "frontend:install": "cd cat-app && npm install",
     "backend:install": "cd catAPI && npm install",
     "frontend:build": "cd cat-app && npm run build",

@@ -13,7 +13,6 @@ const pool = new Pool({
 export const query = (statement: string): any => {
     try {
         const result = pool.query(statement);
-        pool.end();
         return result;
     } catch (error: unknown) {
         console.log(error);
