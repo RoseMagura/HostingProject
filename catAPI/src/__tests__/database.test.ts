@@ -18,9 +18,9 @@ beforeAll(() => {
 
 const testPool = new Pool({
     user: 'root',
-    host: process.env.PGHOST,
+    host: 'localhost',
     database: 'test',
-    port: Number(process.env.PGPORT),
+    port: 5432,
 });
 
 // test getting all
