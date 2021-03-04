@@ -46,7 +46,7 @@ jobs:
       - run: 
           name: Download PSQL Client
           command: sudo apt-get install postgresql-client-9.6
-      - run: psql \du
+      - run: psql -U postgres -c "\du"
       # - run: 
       #     name: Create DB
       #     command: psql createdb test
