@@ -46,29 +46,28 @@ jobs:
       - run: 
           name: Download PSQL Client
           command: sudo apt-get install postgresql-client-9.6
-      - run: psql -U postgres -c "\du"
-      # - run: 
-      #     name: Create DB
-      #     command: psql createdb test
-      # - run: 
-      #     name: Create DB table
-      #     command: |
-      #       psql \
-      #       -d test \
-      #       -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
-      # - run:
-      #     name: Populate DB
-      #     command: |
-      #       psql \ 
-      #       -d test \ 
-      #       -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
-      # - run:
-      #     name: Check DB
-      #     command: |
-      #       psql \
-      #       -d test \
-      #       -c "SELECT * FROM TABLE images;"
-      # - run: 
-      #     name: Run Jest Tests 
-      #     command: npm run test
+      - run: 
+          name: Create DB
+          command: psql -U root createdb test
+      - run: 
+          name: Create DB table
+          command: |
+            psql \
+            -d test -U root \
+            -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
+      - run:
+          name: Populate DB
+          command: |
+            psql \ 
+            -d test -U root \ 
+            -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
+      - run:
+          name: Check DB
+          command: |
+            psql -U root \
+            -d test \
+            -c "SELECT * FROM TABLE images;"
+      - run: 
+          name: Run Jest Tests 
+          command: npm run test
 
