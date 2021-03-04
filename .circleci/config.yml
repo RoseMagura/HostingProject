@@ -22,23 +22,23 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
 
     steps:
-      # - node/install
-      # - checkout
-      # - aws-cli/setup
-      # - run: 
-      #     name: Front-End Install
-      #     command: 
-      #       npm run frontend:install 
-      # - run: 
-      #     name: Back-End Install
-      #     command: 
-      #       npm run backend:install 
-      # - run: 
-      #     name: Build Frontend
-      #     command: npm run frontend:build
-      # - run: 
-      #     name: Build Backend
-      #     command: npm run backend:build
+      - node/install
+      - checkout
+      - aws-cli/setup
+      - run: 
+          name: Front-End Install
+          command: 
+            npm run frontend:install 
+      - run: 
+          name: Back-End Install
+          command: 
+            npm run backend:install 
+      - run: 
+          name: Build Frontend
+          command: npm run frontend:build
+      - run: 
+          name: Build Backend
+          command: npm run backend:build
       - run: 
           name: Check for Updates 
           command: sudo apt-get update
