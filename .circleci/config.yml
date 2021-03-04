@@ -56,12 +56,12 @@ jobs:
             -d test -U root \
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       - run: psql -U root -c "\c test"
-      # - run:
-      #     name: Populate DB
-      #     command: |
-      #       psql \ 
-      #       -d test -U root \ 
-      #       -c "INSERT INTO images (title, url) VALUES ('x', 'y');"
+      - run:
+          name: Populate DB
+          command: |
+            psql \ 
+            -d test -U root \ 
+            -c "INSERT INTO images (title, url) VALUES ('x', 'y');"
       - run:
           name: Check DB
           command: |
