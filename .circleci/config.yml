@@ -57,6 +57,12 @@ jobs:
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
       - run: psql -U root -c "\c test"
       - run:
+          name: Check DB
+          command: |
+            psql -U root \
+            -d test \
+            -c "SELECT * FROM images;"
+      - run:
           name: Populate DB
           command: |
             psql \ 
