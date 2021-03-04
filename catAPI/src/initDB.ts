@@ -1,13 +1,13 @@
 import * as pg from 'pg';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const { Pool } = pg;
 
+const connectionString = process.env.CONNECTION_STRING;
 const pool = new Pool({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    port: Number(process.env.PGPORT),
+  connectionString,
 });
 
 export const query = (statement: string): any => {
