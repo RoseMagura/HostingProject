@@ -62,12 +62,12 @@ jobs:
             psql -U root \
             -d test \
             -c "INSERT INTO images(title, url) VALUES ('x', 'y');"
-      - run:
-          name: Check DB
-          command: |
-            psql -U root \
-            -d test \
-            -c "SELECT * FROM images;"
+      # - run:
+      #     name: Check DB
+      #     command: |
+      #       psql -U root \
+      #       -d test \
+      #       -c "SELECT * FROM images;"
       - run: 
           name: Run Jest Tests 
           command: npm run test
