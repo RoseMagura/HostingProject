@@ -65,9 +65,9 @@ jobs:
       - run:
           name: Populate DB
           command: |
-            psql \ 
-            -d test -U root \ 
-            -c "INSERT INTO images (title, url) VALUES ('x', 'y');"
+            psql -U root \
+            -d test \
+            -c "INSERT INTO images(title, url) VALUES ('x', 'y');"
       - run:
           name: Check DB
           command: |
