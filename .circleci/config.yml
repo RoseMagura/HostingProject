@@ -48,7 +48,7 @@ jobs:
           command: sudo apt-get install postgresql-client-9.6
       - run: 
           name: Create DB
-          command: psql -U root -c "createdb test"
+          command: psql -U root -c "CREATE DATABASE test"
       - run: 
           name: Create DB table
           command: |
