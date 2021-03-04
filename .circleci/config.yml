@@ -55,19 +55,20 @@ jobs:
             psql \
             -d test -U root \
             -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
-      - run:
-          name: Populate DB
-          command: |
-            psql \ 
-            -d test -U root \ 
-            -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
-      - run:
-          name: Check DB
-          command: |
-            psql -U root \
-            -d test \
-            -c "SELECT * FROM TABLE images;"
-      - run: 
-          name: Run Jest Tests 
-          command: npm run test
+      - run: psql -U root -c "\l"
+      # - run:
+      #     name: Populate DB
+      #     command: |
+      #       psql \ 
+      #       -d test -U root \ 
+      #       -c "INSERT INTO TABLE images (title, url) VALUES ('x', 'y');"
+      # - run:
+      #     name: Check DB
+      #     command: |
+      #       psql -U root \
+      #       -d test \
+      #       -c "SELECT * FROM TABLE images;"
+      # - run: 
+      #     name: Run Jest Tests 
+      #     command: npm run test
 
