@@ -11,8 +11,6 @@ jobs:
         auth:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    #     # environment:
-    #     #   TEST_DATABASE_URL: postgresql://root@localhost/circle_test
           
     # Service container image
     
@@ -33,41 +31,12 @@ jobs:
           name: Back-End Install
           command: 
             npm run backend:install 
-      # - run: 
-      #     name: Build Frontend
-      #     command: npm run frontend:build
-      # - run: 
-      #     name: Build Backend
-      #     command: npm run backend:build
-      # - run: 
-      #     name: Check for Updates 
-      #     command: sudo apt-get update
-       # Download postgreSQL client and set up table for testing
-      # - run: 
-      #     name: Download PSQL Client
-      #     command: sudo apt-get install postgresql-client-9.6
-      # - run: 
-      #     name: Create DB
-      #     command: psql -U root -c "CREATE DATABASE test"
-      # - run: 
-      #     name: Create DB table
-      #     command: |
-      #       psql \
-      #       -d test -U root \
-      #       -c "CREATE TABLE images (id serial not null, title char(250), url char(500));"\  
-      # - run: psql -U root -c "\c test"
-      # - run:
-      #     name: Populate DB
-      #     command: |
-      #       psql -U root \
-      #       -d test \
-      #       -c "INSERT INTO images(title, url) VALUES ('x', 'y');"
-      # - run:
-      #     name: Check DB
-      #     command: |
-      #       psql -U root \
-      #       -d test \
-      #       -c "SELECT * FROM images;"
+      - run: 
+          name: Build Frontend
+          command: npm run frontend:build
+      - run: 
+          name: Build Backend
+          command: npm run backend:build
       - run: 
           name: Run Jest Tests 
           command: npm run test
