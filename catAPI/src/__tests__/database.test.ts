@@ -17,10 +17,9 @@ beforeAll(() => {
 });
 
 const testPool = new Pool({
-    user: process.env.PGUSER,
+    user: 'root',
     host: process.env.PGHOST,
     database: 'test',
-    password: process.env.PGPASSWORD,
     port: Number(process.env.PGPORT),
 });
 
