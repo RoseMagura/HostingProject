@@ -1,6 +1,6 @@
 # Hosting Project
 
-[![RoseMagura](https://circleci.com/gh/RoseMagura/HostingProject.svg?style=svg)](https://app.circleci.com/pipelines/github/RoseMagura/HostingProject)
+[![RoseMagura](https://circleci.com/gh/RoseMagura/HostingProject.svg?style=shield)](https://app.circleci.com/pipelines/github/RoseMagura/HostingProject)
 
 ## Introduction
 
