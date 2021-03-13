@@ -11,7 +11,7 @@ interface imageObject {
     url: string;
 }
 
-const connectionString = process.env.CONNECTION_STRING;
+const connectionString = process.env.TEST_DATABASE_URL;
 const testPool = new Pool({
   connectionString,
 });
