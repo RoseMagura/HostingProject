@@ -13,7 +13,6 @@ export const authOptions = passport.authenticate('basic', { session: false });
 router.get(
     '/all',
     async (req: Request, res: Response): Promise<void> => {
-        console.log(req.headers);
         try {
             const all = await Image.findAll();
             res.send(all);
@@ -50,7 +49,7 @@ router.post(
                 userId,
             });
             res.send(
-                `Created image with id ${postResult.get('id')} successfully`
+                JSON.stringify(`Created image with id ${postResult.get('id')} successfully`)
             );
         } catch (error: unknown) {
             console.error(error);
