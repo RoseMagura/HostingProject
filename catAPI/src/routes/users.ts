@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { User } from '../initDB';
 import { passportSetup } from '../auth/index';
 import { authOptions } from './images';
+import * as bcrypt from 'bcrypt';
 
 passportSetup();
 
@@ -40,10 +41,10 @@ router.post(
     async (req: any, res: Response): Promise<void> => {
         const { username, password, firstName, lastName } = req.body;
         try {
-            const hashedPassword = password; // TODO: encrypt
+            const hashedPassword = await bcrypt.hash(password, 10);
             const postResult = await User.create({
                 username,
-                hashedPassword,
+                password: hashedPassword,
                 firstName,
                 lastName,
                 admin: false, // admin will be false for this unauthorized route
@@ -99,19 +100,19 @@ router.put(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
-        // Note that the request body should contain all four
-        const { username, password, firstName, lastName } = req.body;
+        const { newUsername, newPassword, newFirstName, newLastName } = req.body;
         try {
+            const hashedPassword = newPassword !== undefined && await bcrypt.hash(newPassword, 10);
             const user = await User.findByPk(id);
             // admin users can edit any users, but regular users
             // can only edit their own data
             if (req.user?.admin || user?.get('userId') === req.user?.id) {
                 await User.update(
                     {
-                        username,
-                        password,
-                        firstName,
-                        lastName,
+                        // username: username !== undefined && username,
+                        // password: password !== undefined && hashedPassword,
+                        // firstName: firstName !== undefined && firstName,
+                        // lastName: lastName !== undefined && lastName,
                     },
                     { where: { id } }
                 );
@@ -127,6 +128,7 @@ router.put(
             console.error(error);
             res.send(JSON.stringify(error));
         }
+        // res.send('OK');
     }
 );
 

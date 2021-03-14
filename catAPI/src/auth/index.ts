@@ -19,5 +19,4 @@ export const passportSetup = (): void  => {
             return cb(null, user);
         })
     );
-    console.log('setting up passport');
 };
