@@ -16,6 +16,7 @@
         "node_modules",
         "src/**/*.spec.ts",
         "src/__tests__",
-        "jest.config.js"
+        "jest.config.js",
+        "config"
     ]
   }

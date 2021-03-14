@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import imagesRouter from './routes/images';
 import docsRouter from './routes/docs';
+import likesRouter from './routes/likes';
 import { createRelationships } from './initDB';
 import * as passport from 'passport';
 
@@ -32,8 +33,9 @@ app.get('/', (req: Request, res: Response): void => {
     res.send(JSON.stringify('Send a request to the backend'));
 });
 
-app.use('/', imagesRouter);
+app.use('/images', imagesRouter);
 app.use('/api-docs', docsRouter);
+app.use('/likes', likesRouter);
 
 app.listen(port, (): void => {
     createRelationships();

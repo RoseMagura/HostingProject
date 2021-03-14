@@ -21,7 +21,6 @@ export const testConnection = async () => {
 
 const { Pool } = pg;
 
-// const connectionString = process.env.CONNECTION_STRING;
 const connectionString = process.env.LOCAL_CONNECTION;
 
 const pool = new Pool({

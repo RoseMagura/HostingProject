@@ -46,7 +46,7 @@ router.post(
                 imageId
             });
             res.send(
-                `Created like with id ${postResult.get('id')} successfully`
+                JSON.stringify(`Created like with id ${postResult.get('id')} successfully`)
             );
         } catch (error: unknown) {
             console.error(error);
@@ -71,7 +71,7 @@ router.delete(
                         id,
                     },
                 });
-                res.send(`Deleted like successfully`);
+                res.send(JSON.stringify(`Deleted like successfully`));
             } else {
                 res.send(
                     "Can't delete: You can only delete others' likes if you are an admin."
@@ -83,3 +83,5 @@ router.delete(
         }
     }
 );
+
+export default router;
