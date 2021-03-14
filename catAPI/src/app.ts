@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import imagesRouter from './routes/images';
 import docsRouter from './routes/docs';
 import likesRouter from './routes/likes';
+import commentsRouter from './routes/comments';
 import { createRelationships } from './initDB';
 import * as passport from 'passport';
 
@@ -36,6 +37,7 @@ app.get('/', (req: Request, res: Response): void => {
 app.use('/images', imagesRouter);
 app.use('/api-docs', docsRouter);
 app.use('/likes', likesRouter);
+app.use('/comments', commentsRouter);
 
 app.listen(port, (): void => {
     createRelationships();

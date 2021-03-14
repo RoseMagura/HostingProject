@@ -101,26 +101,20 @@ router.put(
             // admin users can edit any images, but regular users
             // can only edit their own images
             if (req.user?.admin || image?.get('userId') === req.user?.id) {
-                await Image.destroy({
-                    where: {
-                        id,
+                await Image.update(
+                    {
+                        title,
+                        url,
+                        userId,
                     },
-                });
-                res.send(`Deleted ${name} successfully`);
+                    { where: { id } }
+                );
+                res.send('Edited image successfully');
             } else {
                 res.send(
-                    "Can't delete: You can only edit others' images if you are an admin."
+                    "Can't edit: You can only edit others' images if you are an admin."
                 );
             }
-            await Image.update(
-                {
-                    title,
-                    url,
-                    userId,
-                },
-                { where: { id } }
-            );
-            res.send('Edited image successfully');
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
