@@ -60,12 +60,11 @@ router.delete(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
-
         try {
             const like = await Like.findByPk(id);
             // admin users can delete any likes, but regular users
             // can only delete their own likes
-            if (req.user?.admin || like?.get('userId') === req.user?.id) {
+            if (req.user?.admin || like?.get('userId') === String(req.user?.id)) {
                 await Like.destroy({
                     where: {
                         id,

@@ -100,7 +100,7 @@ router.put(
             const image = await Image.findByPk(id);
             // admin users can edit any images, but regular users
             // can only edit their own images
-            if (req.user?.admin || image?.get('userId') === req.user?.id) {
+            if (req.user?.admin || image?.get('userId') === String(req.user?.id)) {
                 await Image.update(
                     {
                         title,

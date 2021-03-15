@@ -70,7 +70,7 @@ router.delete(
             const comment = await Comment.findByPk(id);
             // admin users can delete any comments, but regular users
             // can only delete their own comments
-            if (req.user?.admin || comment?.get('userId') === req.user?.id) {
+            if (req.user?.admin || comment?.get('userId') === String(req.user?.id)) {
                 await Comment.destroy({
                     where: {
                         id,

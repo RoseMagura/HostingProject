@@ -68,7 +68,6 @@ router.delete(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
-
         try {
             const user = await User.findByPk(id);
             // admin users can delete any users, but regular users
@@ -100,19 +99,18 @@ router.put(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
-        const { newUsername, newPassword, newFirstName, newLastName } = req.body;
         try {
-            const hashedPassword = newPassword !== undefined && await bcrypt.hash(newPassword, 10);
-            const user = await User.findByPk(id);
             // admin users can edit any users, but regular users
             // can only edit their own data
-            if (req.user?.admin || user?.get('userId') === req.user?.id) {
+            if (req.user?.admin || id === String(req.user?.id)) {
+                const { username, password, firstName, lastName } = req.body;
+                const hashedPassword = await bcrypt.hash(password, 10);
                 await User.update(
                     {
-                        // username: username !== undefined && username,
-                        // password: password !== undefined && hashedPassword,
-                        // firstName: firstName !== undefined && firstName,
-                        // lastName: lastName !== undefined && lastName,
+                        username,
+                        password: hashedPassword,
+                        firstName,
+                        lastName,
                     },
                     { where: { id } }
                 );
@@ -128,7 +126,6 @@ router.put(
             console.error(error);
             res.send(JSON.stringify(error));
         }
-        // res.send('OK');
     }
 );
 
