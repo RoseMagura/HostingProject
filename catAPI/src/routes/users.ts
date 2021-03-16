@@ -61,7 +61,28 @@ router.post(
     }
 );
 
-// TODO: Create Admin (authorized) post route
+// Create Admin (authorized) post route
+router.post('/admin', authOptions, async (req: Request, res: Response): Promise<void> => {
+    const { username, password, firstName, lastName } = req.body;
+    try {
+        if (req.user?.admin) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const dbResult = await User.create({
+                username,
+                password: hashedPassword,
+                firstName,
+                lastName,
+                admin: true, 
+            });
+            res.send(JSON.stringify(`Created admin with id ${dbResult.get('id')} successfully`));
+        } else {
+            res.send(JSON.stringify('Can only create admin if you are an admin'))
+        }
+    } catch (error: unknown) {
+        console.error(error);
+        res.send(JSON.stringify(error));
+    }
+});
 
 router.delete(
     '/id/:id',
@@ -92,6 +113,26 @@ router.delete(
         }
     }
 );
+
+// Put request (authorized) to set as admin or remove admin privileges
+router.put('/admin/id/:id', authOptions, async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    const status = req.query.status;
+    console.log('STATUS', status);
+    try {
+        if (req.user?.admin) {
+            await User.update({
+                admin: status
+            }, { where: { id }});
+            res.send(JSON.stringify('User admin status changed'));
+        } else {
+            res.send(JSON.stringify('Can only change admin status if you are an admin'))
+        }
+    } catch (error: unknown) {
+        console.error(error);
+        res.send(JSON.stringify(error));
+    }
+});
 
 // Put Request (change username, password, etc.)
 router.put(
@@ -128,7 +169,5 @@ router.put(
         }
     }
 );
-
-// TODO: Put request (authorized) to set as admin or remove admin privileges
 
 export default router;

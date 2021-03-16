@@ -21,10 +21,10 @@ export const passportSetup = (): void => {
                         console.error(err);
                     }
                     if (res) {
-                        console.log('RES', res);
+                        console.log('Passwords match');
                         return cb(null, user);
                     } else {
-                        console.log('no match');
+                        console.log('Password doesn\'t match');
                         return cb(null, false);
                     }
                 }
