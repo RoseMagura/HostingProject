@@ -9,9 +9,7 @@ import commentsRouter from './routes/comments';
 import usersRouter from './routes/users';
 import { createRelationships } from './initDB';
 import * as passport from 'passport';
-
-import { User } from './initDB';
-import * as bcrypt from 'bcrypt';
+import { issueToken } from './auth/index';
 
 dotenv.config();
 const app: express.Application = express();
@@ -40,17 +38,8 @@ app.get('/', (req: Request, res: Response): void => {
 app.post(
     '/login',
     async (req: Request, res: Response): Promise<void> => {
-        console.log(req.body);
         const { username, password } = req.body;
-        const user = await User.findOne({
-            where: { username },
-        }).catch((error: unknown) => console.error(error));
-        console.log(user);
-        // bcrypt.compare(
-        //     password,
-        //     String(user.get('password')));
-        // const match = await bcrypt.compare(password, String(user.get('password')));
-        res.send('OK');
+        issueToken(username, password, res, false);
     }
 );
 

@@ -1,11 +1,11 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { User } from '../initDB';
-import { passportSetup } from '../auth/index';
+import { passportSetup, issueToken } from '../auth/index';
 import { authOptions } from './images';
 import * as bcrypt from 'bcrypt';
 
-passportSetup();
+// passportSetup();
 
 const router = express.Router();
 
@@ -49,11 +49,7 @@ router.post(
                 lastName,
                 admin: false, // admin will be false for this unauthorized route
             });
-            res.send(
-                JSON.stringify(
-                    `Created user with id ${postResult.get('id')} successfully`
-                )
-            );
+            issueToken(username, password, res, true);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -74,7 +70,7 @@ router.post('/admin', authOptions, async (req: Request, res: Response): Promise<
                 lastName,
                 admin: true, 
             });
-            res.send(JSON.stringify(`Created admin with id ${dbResult.get('id')} successfully`));
+            issueToken(username, password, res, true);
         } else {
             res.send(JSON.stringify('Can only create admin if you are an admin'))
         }

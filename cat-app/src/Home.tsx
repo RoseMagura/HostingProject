@@ -19,7 +19,7 @@ class Home extends React.Component {
     }
 
     fetchAll = () => {
-        const apiUrl = `${process.env.REACT_APP_API_URL}/all`;
+        const apiUrl = `${process.env.REACT_APP_API_URL}/images/all`;
         let imageList: imageObject[] = [];
         fetch(apiUrl)
             .then((response) => response.json())
@@ -38,17 +38,17 @@ class Home extends React.Component {
 
     fetchById = (event: any) => {
         const id = event.target.value;
-        const apiUrl = `${process.env.REACT_APP_API_URL}/id/${id}`;
+        const apiUrl = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
         fetch(apiUrl)
             .then((response) => response.json())
-            .then((data) => {
-                this.setState({ selectedImages: data });
+            .then((data: imageObject) => {
+                this.setState({ selectedImages: [data] });
             });
     };
     render() {
         return (
             <div>
-                <h1>Cat Pictures</h1>
+                <h1>CatBook</h1>
                 <button onClick={this.displayAll}>See All</button>
                 <div>
                     <h2>Pick By Title:</h2>

@@ -1,14 +1,28 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { Image } from '../initDB';
-import * as passport from 'passport';
-import { passportSetup } from '../auth/index';
+// import { passportSetup } from '../auth/index';
+const jwt = require('jsonwebtoken');
+import * as dotenv from 'dotenv';
 
-passportSetup();
+// passportSetup();
+
+dotenv.config();
 
 const router = express.Router();
 
-export const authOptions = passport.authenticate('basic', { session: false });
+export const authOptions = (req: Request, res: Response, next: any) => {
+    try {
+        const authHeader = req.headers.authorization;
+        const token = authHeader?.split(' ')[1];
+        jwt.verify(token, process.env.PRIVATE_KEY);
+        next();
+    } catch (error: unknown) {
+        console.error(error);
+        res.status(401);
+        res.send(JSON.stringify(error));
+    }
+};
 
 router.get(
     '/all',
@@ -49,7 +63,9 @@ router.post(
                 userId,
             });
             res.send(
-                JSON.stringify(`Created image with id ${postResult.get('id')} successfully`)
+                JSON.stringify(
+                    `Created image with id ${postResult.get('id')} successfully`
+                )
             );
         } catch (error: unknown) {
             console.error(error);
@@ -100,7 +116,10 @@ router.put(
             const image = await Image.findByPk(id);
             // admin users can edit any images, but regular users
             // can only edit their own images
-            if (req.user?.admin || image?.get('userId') === String(req.user?.id)) {
+            if (
+                req.user?.admin ||
+                image?.get('userId') === String(req.user?.id)
+            ) {
                 await Image.update(
                     {
                         title,

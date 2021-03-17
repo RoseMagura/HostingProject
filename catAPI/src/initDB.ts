@@ -44,16 +44,27 @@ export const Image = sequelize.define(
     }
 );
 
-export const User = sequelize.define(
+// interface myUserAttributes {
+//     password: string;
+// }
+
+// interface myUserInstance extends Sequelize.Instance<myUserAttributes> {
+//     password: string;
+// }
+
+export const User = sequelize.define
+// <myUserAttributes, myUserInstance>
+(
     'User',
     {
         username: { type: DataTypes.STRING, allowNull: false },
         password: { type: DataTypes.STRING, allowNull: false, 
-            get() {
-                // const rawValue = 
-                return new String(this.getDataValue('password'));
-                // return rawValue ? rawValue : null
-            } },
+            // get(this: myUserInstance) {
+            //     // const rawValue = 
+            //     return new String(this.getDataValue('password'));
+            //     // return rawValue ? rawValue : null
+            // }
+        },
         firstName: { type: DataTypes.STRING, allowNull: false },
         lastName: { type: DataTypes.STRING, allowNull: false },
         admin: { type: DataTypes.BOOLEAN, defaultValue: false },
