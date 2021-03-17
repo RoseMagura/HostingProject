@@ -10,6 +10,9 @@ import usersRouter from './routes/users';
 import { createRelationships } from './initDB';
 import * as passport from 'passport';
 
+import { User } from './initDB';
+import * as bcrypt from 'bcrypt';
+
 dotenv.config();
 const app: express.Application = express();
 app.use(cors());
@@ -31,9 +34,25 @@ const port = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 app.get('/', (req: Request, res: Response): void => {
-    console.log(req.headers);
     res.send(JSON.stringify('Send a request to the backend'));
 });
+
+app.post(
+    '/login',
+    async (req: Request, res: Response): Promise<void> => {
+        console.log(req.body);
+        const { username, password } = req.body;
+        const user = await User.findOne({
+            where: { username },
+        }).catch((error: unknown) => console.error(error));
+        console.log(user);
+        // bcrypt.compare(
+        //     password,
+        //     String(user.get('password')));
+        // const match = await bcrypt.compare(password, String(user.get('password')));
+        res.send('OK');
+    }
+);
 
 app.use('/images', imagesRouter);
 app.use('/api-docs', docsRouter);
