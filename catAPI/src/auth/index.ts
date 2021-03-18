@@ -35,7 +35,7 @@ export const passportSetup = (): void => {
     );
 };
 
-export const issueToken = async (username: string, password: string, res: Response, creating: boolean): Promise<void> => {
+export const issueToken = async (username: string, password: string, res: Response): Promise<void> => {
     const user = await User.findOne({
         where: { username },
     }).catch((error: unknown) => console.error(error));
@@ -55,7 +55,6 @@ export const issueToken = async (username: string, password: string, res: Respon
                 if (err) {
                     console.error(err);
                     res.send(JSON.stringify(`Error: ${err}`));
-                    // return `Error: ${err}`;
                 }
                 if (match) {
                     console.log('Passwords match');
@@ -69,9 +68,8 @@ export const issueToken = async (username: string, password: string, res: Respon
                             '\n'
                         )
                     );
-                    creating 
-                        ? res.send(JSON.stringify(`Created user ${username} with TOKEN: ${token}`))
-                        : res.send(JSON.stringify(`Logged in as user ${username} with TOKEN: ${token}`));
+
+                    res.json(token);
                 } else {
                     console.log("Password doesn't match");
                     res.send(JSON.stringify('Failed to log in'));

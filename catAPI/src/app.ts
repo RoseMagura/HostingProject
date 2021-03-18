@@ -39,7 +39,7 @@ app.post(
     '/login',
     async (req: Request, res: Response): Promise<void> => {
         const { username, password } = req.body;
-        issueToken(username, password, res, false);
+        await issueToken(username, password, res);
     }
 );
 
@@ -48,6 +48,11 @@ app.use('/api-docs', docsRouter);
 app.use('/likes', likesRouter);
 app.use('/comments', commentsRouter);
 app.use('/users', usersRouter);
+
+// Handle 404 errors
+app.use((req: Request, res: Response) => {
+    res.status(404).send('Unable to find that page');
+});
 
 app.listen(port, (): void => {
     createRelationships();

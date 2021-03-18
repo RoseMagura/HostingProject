@@ -1,11 +1,9 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { User } from '../initDB';
-import { passportSetup, issueToken } from '../auth/index';
+import { issueToken } from '../auth/index';
 import { authOptions } from './images';
 import * as bcrypt from 'bcrypt';
-
-// passportSetup();
 
 const router = express.Router();
 
@@ -14,7 +12,7 @@ router.get(
     async (req: Request, res: Response): Promise<void> => {
         try {
             const all = await User.findAll();
-            res.send(all);
+            res.json(all);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -28,7 +26,13 @@ router.get(
         try {
             const id = req.params.id;
             const user = await User.findByPk(id);
-            res.send(user);
+            if (user === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that user')
+                );
+            } else {
+                res.json(user);
+            }
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -49,7 +53,7 @@ router.post(
                 lastName,
                 admin: false, // admin will be false for this unauthorized route
             });
-            issueToken(username, password, res, true);
+            await issueToken(username, password, res);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -58,27 +62,33 @@ router.post(
 );
 
 // Create Admin (authorized) post route
-router.post('/admin', authOptions, async (req: Request, res: Response): Promise<void> => {
-    const { username, password, firstName, lastName } = req.body;
-    try {
-        if (req.user?.admin) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const dbResult = await User.create({
-                username,
-                password: hashedPassword,
-                firstName,
-                lastName,
-                admin: true, 
-            });
-            issueToken(username, password, res, true);
-        } else {
-            res.send(JSON.stringify('Can only create admin if you are an admin'))
+router.post(
+    '/admin',
+    authOptions,
+    async (req: Request, res: Response): Promise<void> => {
+        const { username, password, firstName, lastName } = req.body;
+        try {
+            if (req.user?.admin) {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                const dbResult = await User.create({
+                    username,
+                    password: hashedPassword,
+                    firstName,
+                    lastName,
+                    admin: true,
+                });
+                issueToken(username, password, res);
+            } else {
+                res.send(
+                    JSON.stringify('Can only create admin if you are an admin')
+                );
+            }
+        } catch (error: unknown) {
+            console.error(error);
+            res.send(JSON.stringify(error));
         }
-    } catch (error: unknown) {
-        console.error(error);
-        res.send(JSON.stringify(error));
     }
-});
+);
 
 router.delete(
     '/id/:id',
@@ -87,21 +97,27 @@ router.delete(
         const id = req.params.id;
         try {
             const user = await User.findByPk(id);
-            // admin users can delete any users, but regular users
-            // can only delete their own users
-            if (req.user?.admin || user?.get('userId') === req.user?.id) {
-                await User.destroy({
-                    where: {
-                        id,
-                    },
-                });
-                res.send(JSON.stringify(`Deleted user successfully`));
-            } else {
-                res.send(
-                    JSON.stringify(
-                        "Can't delete: You can only delete other users if you are an admin."
-                    )
+            if (user === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that user')
                 );
+            } else {
+                // admin users can delete any users, but regular users
+                // can only delete their own users
+                if (req.user?.admin || user?.get('userId') === req.user?.id) {
+                    await User.destroy({
+                        where: {
+                            id,
+                        },
+                    });
+                    res.send(JSON.stringify(`Deleted user successfully`));
+                } else {
+                    res.send(
+                        JSON.stringify(
+                            "Can't delete: You can only delete other users if you are an admin."
+                        )
+                    );
+                }
             }
         } catch (error: unknown) {
             console.log(error);
@@ -111,24 +127,41 @@ router.delete(
 );
 
 // Put request (authorized) to set as admin or remove admin privileges
-router.put('/admin/id/:id', authOptions, async (req: Request, res: Response): Promise<void> => {
-    const id = req.params.id;
-    const status = req.query.status;
-    console.log('STATUS', status);
-    try {
-        if (req.user?.admin) {
-            await User.update({
-                admin: status
-            }, { where: { id }});
-            res.send(JSON.stringify('User admin status changed'));
-        } else {
-            res.send(JSON.stringify('Can only change admin status if you are an admin'))
+router.put(
+    '/admin/id/:id',
+    authOptions,
+    async (req: Request, res: Response): Promise<void> => {
+        const id = req.params.id;
+        const status = req.query.status;
+        try {
+            const user = await User.findByPk(id);
+            if (user === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that user')
+                );
+            } else {
+                if (req.user?.admin) {
+                    await User.update(
+                        {
+                            admin: status,
+                        },
+                        { where: { id } }
+                    );
+                    res.send(JSON.stringify('User admin status changed'));
+                } else {
+                    res.send(
+                        JSON.stringify(
+                            'Can only change admin status if you are an admin'
+                        )
+                    );
+                }
+            }
+        } catch (error: unknown) {
+            console.error(error);
+            res.send(JSON.stringify(error));
         }
-    } catch (error: unknown) {
-        console.error(error);
-        res.send(JSON.stringify(error));
     }
-});
+);
 
 // Put Request (change username, password, etc.)
 router.put(
@@ -137,27 +170,39 @@ router.put(
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
         try {
-            // admin users can edit any users, but regular users
-            // can only edit their own data
-            if (req.user?.admin || id === String(req.user?.id)) {
-                const { username, password, firstName, lastName } = req.body;
-                const hashedPassword = await bcrypt.hash(password, 10);
-                await User.update(
-                    {
+            const user = await User.findByPk(id);
+            if (user === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that user')
+                );
+            } else {
+                // admin users can edit any users, but regular users
+                // can only edit their own data
+                if (req.user?.admin || id === String(req.user?.id)) {
+                    const {
                         username,
-                        password: hashedPassword,
+                        password,
                         firstName,
                         lastName,
-                    },
-                    { where: { id } }
-                );
-                res.send(JSON.stringify('Edited user successfully'));
-            } else {
-                res.send(
-                    JSON.stringify(
-                        "Can't edit: You can only edit other users if you are an admin."
-                    )
-                );
+                    } = req.body;
+                    const hashedPassword = await bcrypt.hash(password, 10);
+                    await User.update(
+                        {
+                            username,
+                            password: hashedPassword,
+                            firstName,
+                            lastName,
+                        },
+                        { where: { id } }
+                    );
+                    res.send(JSON.stringify('Edited user successfully'));
+                } else {
+                    res.send(
+                        JSON.stringify(
+                            "Can't edit: You can only edit other users if you are an admin."
+                        )
+                    );
+                }
             }
         } catch (error: unknown) {
             console.error(error);

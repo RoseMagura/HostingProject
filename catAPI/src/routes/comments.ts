@@ -13,7 +13,7 @@ router.get(
     async (req: Request, res: Response): Promise<void> => {
         try {
             const all = await Comment.findAll();
-            res.send(all);
+            res.json(all);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -27,7 +27,13 @@ router.get(
         try {
             const id = req.params.id;
             const comment = await Comment.findByPk(id);
-            res.send(comment);
+            if (comment === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that comment')
+                );
+            } else {
+                res.json(comment);
+            }
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));
@@ -65,24 +71,32 @@ router.delete(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
-
         try {
             const comment = await Comment.findByPk(id);
-            // admin users can delete any comments, but regular users
-            // can only delete their own comments
-            if (req.user?.admin || comment?.get('userId') === String(req.user?.id)) {
-                await Comment.destroy({
-                    where: {
-                        id,
-                    },
-                });
-                res.send(JSON.stringify(`Deleted comment successfully`));
-            } else {
-                res.send(
-                    JSON.stringify(
-                        "Can't delete: You can only delete others' comments if you are an admin."
-                    )
+            if (comment === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that comment')
                 );
+            } else {
+                // admin users can delete any comments, but regular users
+                // can only delete their own comments
+                if (
+                    req.user?.admin ||
+                    comment?.get('userId') === String(req.user?.id)
+                ) {
+                    await Comment.destroy({
+                        where: {
+                            id,
+                        },
+                    });
+                    res.send(JSON.stringify(`Deleted comment successfully`));
+                } else {
+                    res.send(
+                        JSON.stringify(
+                            "Can't delete: You can only delete others' comments if you are an admin."
+                        )
+                    );
+                }
             }
         } catch (error: unknown) {
             console.log(error);
@@ -101,23 +115,32 @@ router.put(
         const { text, userId } = req.body;
         try {
             const comment = await Comment.findByPk(id);
-            // admin users can edit any comments, but regular users
-            // can only edit their own comments
-            if (req.user?.admin || comment?.get('userId') === req.user?.id) {
-                await Comment.update(
-                    {
-                        text,
-                        userId,
-                    },
-                    { where: { id } }
+            if (comment === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find that comment')
                 );
-                res.send(JSON.stringify('Edited comment successfully'));
             } else {
-                res.send(
-                    JSON.stringify(
-                        "Can't edit: You can only edit others' comments if you are an admin."
-                    )
-                );
+                // admin users can edit any comments, but regular users
+                // can only edit their own comments
+                if (
+                    req.user?.admin ||
+                    comment?.get('userId') === req.user?.id
+                ) {
+                    await Comment.update(
+                        {
+                            text,
+                            userId,
+                        },
+                        { where: { id } }
+                    );
+                    res.send(JSON.stringify('Edited comment successfully'));
+                } else {
+                    res.send(
+                        JSON.stringify(
+                            "Can't edit: You can only edit others' comments if you are an admin."
+                        )
+                    );
+                }
             }
         } catch (error: unknown) {
             console.error(error);
