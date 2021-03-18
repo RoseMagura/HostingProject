@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.2.0
-  aws-cli: circleci/aws-cli@1.3.1
+  # aws-cli: circleci/aws-cli@1.3.1
 jobs:
   build:
     # Primary container image where all commands run
@@ -22,24 +22,24 @@ jobs:
     steps:
       - node/install
       - checkout
-      - aws-cli/setup
-      - run: 
-          name: Front-End Install
-          command: 
-            npm run frontend:install 
+      # - aws-cli/setup
+      # - run: 
+      #     name: Front-End Install
+      #     command: 
+      #       npm run frontend:install 
       - run: 
           name: Back-End Install
           command: 
             npm run backend:install 
-      - run: 
-          name: Build Frontend
-          command: npm run frontend:build
-      - run: 
-          name: Build Backend
-          command: npm run backend:build
+      # - run: 
+      #     name: Build Frontend
+      #     command: npm run frontend:build
+      # - run: 
+      #     name: Build Backend
+      #     command: npm run backend:build
       - run: 
           name: Set up DB
-          command: cd catAPI && npm run createTestDB
+          command: cd catAPI && npm run migrate
       - run: 
           name: Run Jest Tests 
           command: npm run test

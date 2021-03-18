@@ -18,7 +18,7 @@ const connectionString = process.env.TEST_DATABASE_URL;
 //     process.env.PGPASSWORD,
 //     process.env.TEST_DATABASE
 // };
-const testPool = new Pool();
+const testPool = new Pool({ connectionString });
 
 // test getting all
 // test('test getting images from database', async (done) => {
