@@ -42,5 +42,5 @@ jobs:
           command: cd catAPI && npm run migrate
       - run: 
           name: Run Jest Tests 
-          command: npm run test
+          command: cd catAPI && jest
 
