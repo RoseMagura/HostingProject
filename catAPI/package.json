@@ -10,6 +10,7 @@
         "dev": "tsc-watch --onSuccess \"node ./dist/app.js\"",
         "build": "tsc --project ./",
         "createDB": "node_modules/.bin/sequelize db:create",
+        "createTestDB": "node_modules/.bin/sequelize db:create --env=test", 
         "migrate": "node_modules/.bin/sequelize db:migrate",
         "seed": "node_modules/.bin/sequelize db:seed:all"
     },

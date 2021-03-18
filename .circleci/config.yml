@@ -39,7 +39,7 @@ jobs:
           command: npm run backend:build
       - run: 
           name: Set up DB
-          command: cd catAPI && npm run createDB
+          command: cd catAPI && npm run createTestDB
       - run: 
           name: Run Jest Tests 
           command: npm run test
