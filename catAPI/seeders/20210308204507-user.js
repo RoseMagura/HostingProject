@@ -4,7 +4,7 @@ require('dotenv').config();
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('Users', [{
+      return queryInterface.bulkInsert('users', [{
           username: 'admin',
           password: bcrypt.hashSync(process.env.ADMIN_PASSWORD, bcrypt.genSaltSync(8)),
           firstName: 'Admin',
@@ -14,6 +14,6 @@ module.exports = {
           updatedAt: new Date()
         }], {});
     },down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('Users', null, {});
+      return queryInterface.bulkDelete('users', null, {});
     }
   };

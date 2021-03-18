@@ -36,50 +36,25 @@ export const query = (statement: string): any => {
     }
 };
 
-export const Image = sequelize.define(
-    'Image',
-    {
-        title: { type: DataTypes.STRING, allowNull: false },
-        url: { type: DataTypes.STRING, allowNull: false },
-    }
-);
+export const Image = sequelize.define('image', {
+    title: { type: DataTypes.STRING, allowNull: false },
+    url: { type: DataTypes.STRING, allowNull: false },
+});
 
-// interface myUserAttributes {
-//     password: string;
-// }
-
-// interface myUserInstance extends Sequelize.Instance<myUserAttributes> {
-//     password: string;
-// }
-
-export const User = sequelize.define
-// <myUserAttributes, myUserInstance>
-(
-    'User',
-    {
-        username: { type: DataTypes.STRING, allowNull: false },
-        password: { type: DataTypes.STRING, allowNull: false, 
-            // get(this: myUserInstance) {
-            //     // const rawValue = 
-            //     return new String(this.getDataValue('password'));
-            //     // return rawValue ? rawValue : null
-            // }
-        },
-        firstName: { type: DataTypes.STRING, allowNull: false },
-        lastName: { type: DataTypes.STRING, allowNull: false },
-        admin: { type: DataTypes.BOOLEAN, defaultValue: false },
-    }
-);
-export const Comment = sequelize.define(
-    'Comment',
-    {
-        text: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    }
-);
-export const Like = sequelize.define('Like', {}, {});
+export const User = sequelize.define('user', {
+    username: { type: DataTypes.STRING, allowNull: false },
+    password: { type: DataTypes.STRING, allowNull: false },
+    firstName: { type: DataTypes.STRING, allowNull: false },
+    lastName: { type: DataTypes.STRING, allowNull: false },
+    admin: { type: DataTypes.BOOLEAN, defaultValue: false },
+});
+export const Comment = sequelize.define('comment', {
+    text: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+});
+export const Like = sequelize.define('like', {}, {});
 
 export const createRelationships = async () => {
     User.hasMany(Comment, { foreignKey: { name: 'userId' } });

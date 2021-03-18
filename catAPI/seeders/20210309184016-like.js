@@ -2,14 +2,13 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Comments', [{
-        text: 'I love this!!',
+    return queryInterface.bulkInsert('likes', [{
         userId: 1,
         imageId: 1
     }])
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Comments', null, {});
+    return queryInterface.bulkDelete('likes', null, {});
   }
 };
