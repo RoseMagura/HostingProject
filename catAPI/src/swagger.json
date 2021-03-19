@@ -1,0 +1,59 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a Node Express API project that fetches pictures of cats",
+        "version": "1.0.0",
+        "title": "Cat API",
+        "contact": {
+            "email": "rosemmagura@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "schemes": ["http"],
+    "host": "localhost:3000",
+    "basePath": "/",
+    "paths": {
+        "/all": {
+            "get": {
+                "summary": "Get all the cat pictures",
+                "description": "Select all from images table in database",
+                "produces": ["application/json"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successfully executed"
+                    },
+                    "400": {
+                        "description": "Error with getting from database"
+                    }
+                }
+            }
+        }, 
+        "/id/{id}": {
+            "get": {
+                "summary": "Get one cat picture by ID",
+                "description": "Select one from images table in database",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": "true",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully executed"
+                    },
+                    "400": {
+                        "description": "Error with getting from database"
+                    }
+            }
+        }
+    }
+}
+}

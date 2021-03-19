@@ -1,0 +1,24 @@
+{
+  "name": "hosting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd cat-app && npm run test && cd ../catAPI && npm run test",
+    "frontend:install": "cd cat-app && npm install",
+    "backend:install": "cd catAPI && npm install",
+    "frontend:build": "cd cat-app && npm run build",
+    "backend:build": "cd catAPI && npm run build",
+    "frontend:deploy": "cd cat-app && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoseMagura/HostingProject.git"
+  },
+  "author": "Rose Magura",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoseMagura/HostingProject/issues"
+  },
+  "homepage": "https://github.com/RoseMagura/HostingProject#readme"
+}
