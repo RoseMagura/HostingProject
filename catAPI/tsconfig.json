@@ -19,7 +19,8 @@
         "jest.config.js",
         "config",
         "migrations",
-        "seeders"
+        "seeders",
+        "coverage"
     ],
     "typeRoots": [
       "./node_modules/@types"

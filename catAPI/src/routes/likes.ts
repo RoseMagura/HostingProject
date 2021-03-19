@@ -1,10 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { Like } from '../initDB';
-import { passportSetup } from '../auth/index';
 import { authOptions } from './images';
-
-passportSetup();
 
 const router = express.Router();
 
