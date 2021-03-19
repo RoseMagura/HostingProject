@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import { BasicStrategy } from 'passport-http';
 import { User } from '../initDB';
 import * as passport from 'passport';
+=======
+import { User } from '../initDB';
+>>>>>>> master
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 const jwt = require('jsonwebtoken');
 
+<<<<<<< HEAD
 export const passportSetup = (): void => {
     passport.use(
         'basic',
@@ -35,6 +40,8 @@ export const passportSetup = (): void => {
     );
 };
 
+=======
+>>>>>>> master
 export const issueToken = async (username: string, password: string, res: Response): Promise<void> => {
     const user = await User.findOne({
         where: { username },

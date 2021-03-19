@@ -1,9 +1,10 @@
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 import * as pg from 'pg';
 
 const { Pool } = pg;
 
-dotenv.config();
+// dotenv
+require("dotenv").config();
 
 interface imageObject {
     id: number;
@@ -17,29 +18,34 @@ const testPool = new Pool({ connectionString });
 
 // test getting all
 test('test getting images from database', async (done) => {
-    testPool.connect((err, client, release) => {
-        if (err) {
-            return console.error('Error acquiring client', err.stack);
-        }
-
-        client.query('SELECT * FROM images', (err, response) => {
-            release();
+    try {
+        testPool.connect((err, client, release) => {
             if (err) {
-                return console.error('Error executing query', err.stack);
+                console.error('Error acquiring client', err.stack);
+                return err;
             }
-            expect(response.rows).toBeDefined();
-            expect(response.rows.length).toBeGreaterThan(0);
-            response.rows.forEach((element: imageObject) => {
-                expect(element.id).toBeDefined();
-                expect(typeof element.id).toBe('number');
-                expect(element.title).toBeDefined();
-                expect(typeof element.title).toBe('string');
-                expect(element.url).toBeDefined();
-                expect(typeof element.url).toBe('string');
+    
+            client.query('SELECT * FROM images', (err, response) => {
+                release();
+                if (err) {
+                    return console.error('Error executing query', err.stack);
+                }
+                expect(response.rows).toBeDefined();
+                expect(response.rows.length).toBeGreaterThan(0);
+                response.rows.forEach((element: imageObject) => {
+                    expect(element.id).toBeDefined();
+                    expect(typeof element.id).toBe('number');
+                    expect(element.title).toBeDefined();
+                    expect(typeof element.title).toBe('string');
+                    expect(element.url).toBeDefined();
+                    expect(typeof element.url).toBe('string');
+                });
             });
         });
-    });
-    done();
+        done();
+    } catch (error: unknown) {
+        console.error('error', error);
+    }
 });
 
 // test getting by id
@@ -47,7 +53,8 @@ test('test getting image by id from database', async (done) => {
     // get all images first
     testPool.connect(async (err, client, release) => {
         if (err) {
-            return console.error('Error acquiring client', err.stack);
+            console.error('Error acquiring client', err.stack);
+            return err;
         }
         const all = await client.query('SELECT * FROM images;');
         /* then, pick the first one's id (instead of using hard coded

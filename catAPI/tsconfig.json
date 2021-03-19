@@ -17,6 +17,18 @@
         "src/**/*.spec.ts",
         "src/__tests__",
         "jest.config.js",
+<<<<<<< HEAD
         "config"
     ]
+=======
+        "config",
+        "migrations",
+        "seeders",
+        "coverage"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "types": ["node", "jest"]
+>>>>>>> master
   }
