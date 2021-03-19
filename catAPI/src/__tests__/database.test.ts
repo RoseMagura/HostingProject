@@ -1,9 +1,8 @@
-// import * as dotenv from 'dotenv';
 import * as pg from 'pg';
+import { expect, test, afterAll } from '@jest/globals';
 
 const { Pool } = pg;
 
-// dotenv
 require("dotenv").config();
 
 interface imageObject {
@@ -17,7 +16,7 @@ const connectionString = process.env.TEST_DATABASE_URL;
 const testPool = new Pool({ connectionString });
 
 // test getting all
-test('test getting images from database', async (done) => {
+test('test getting images from database', async (done: any) => {
     try {
         testPool.connect((err, client, release) => {
             if (err) {
@@ -49,7 +48,7 @@ test('test getting images from database', async (done) => {
 });
 
 // test getting by id
-test('test getting image by id from database', async (done) => {
+test('test getting image by id from database', async (done: any) => {
     // get all images first
     testPool.connect(async (err, client, release) => {
         if (err) {

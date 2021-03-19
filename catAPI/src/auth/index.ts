@@ -1,47 +1,10 @@
-<<<<<<< HEAD
 import { BasicStrategy } from 'passport-http';
 import { User } from '../initDB';
 import * as passport from 'passport';
-=======
-import { User } from '../initDB';
->>>>>>> master
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 const jwt = require('jsonwebtoken');
 
-<<<<<<< HEAD
-export const passportSetup = (): void => {
-    passport.use(
-        'basic',
-        new BasicStrategy(async (username, password, cb) => {
-            const user = await User.findOne({
-                where: { username },
-            }).catch((error: unknown) => cb(error));
-            if (!user) {
-                return cb(null, false);
-            }
-            bcrypt.compare(
-                password,
-                String(user.get('password')),
-                (err, res) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                    if (res) {
-                        console.log('Passwords match');
-                        return cb(null, user);
-                    } else {
-                        console.log('Password doesn\'t match');
-                        return cb(null, false);
-                    }
-                }
-            );
-        })
-    );
-};
-
-=======
->>>>>>> master
 export const issueToken = async (username: string, password: string, res: Response): Promise<void> => {
     const user = await User.findOne({
         where: { username },

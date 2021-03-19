@@ -1,9 +1,10 @@
 import app from '../app';
 import * as supertest from 'supertest';
+import { expect, it } from '@jest/globals';
 
 const request = supertest(app);
 
-it('Gets the base endpoint', async (done) => {
+it('Gets the base endpoint', async (done: any) => {
     const res = await request.get('/');
     expect(res.status).toEqual(200);
     // JSON.stringify adds extra quotations
