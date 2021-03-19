@@ -12,42 +12,35 @@ interface imageObject {
 }
 
 const connectionString = process.env.TEST_DATABASE_URL;
-// const options = {
-//     process.env.PGHOST,
-//     process.env.PGUSER,
-//     process.env.PGPASSWORD,
-//     process.env.TEST_DATABASE
-// };
+
 const testPool = new Pool({ connectionString });
 
 // test getting all
-// test('test getting images from database', async (done) => {
-//     expect(1).toBe(1);
+test('test getting images from database', async (done) => {
+    testPool.connect((err, client, release) => {
+        if (err) {
+            return console.error('Error acquiring client', err.stack);
+        }
 
-//     // testPool.connect((err, client, release) => {
-//     //     if (err) {
-//     //         return console.error('Error acquiring client', err.stack);
-//     //     }
-
-//     //     client.query('SELECT * FROM "Images"', (err, response) => {
-//     //         release();
-//     //         if (err) {
-//     //             return console.error('Error executing query', err.stack);
-//     //         }
-//     //         expect(response.rows).toBeDefined();
-//     //         expect(response.rows.length).toBeGreaterThan(0);
-//     //         response.rows.forEach((element: imageObject) => {
-//     //             expect(element.id).toBeDefined();
-//     //             expect(typeof element.id).toBe('number');
-//     //             expect(element.title).toBeDefined();
-//     //             expect(typeof element.title).toBe('string');
-//     //             expect(element.url).toBeDefined();
-//     //             expect(typeof element.url).toBe('string');
-//     //         });
-//     //     });
-//     // });
-//     done();
-// });
+        client.query('SELECT * FROM images', (err, response) => {
+            release();
+            if (err) {
+                return console.error('Error executing query', err.stack);
+            }
+            expect(response.rows).toBeDefined();
+            expect(response.rows.length).toBeGreaterThan(0);
+            response.rows.forEach((element: imageObject) => {
+                expect(element.id).toBeDefined();
+                expect(typeof element.id).toBe('number');
+                expect(element.title).toBeDefined();
+                expect(typeof element.title).toBe('string');
+                expect(element.url).toBeDefined();
+                expect(typeof element.url).toBe('string');
+            });
+        });
+    });
+    done();
+});
 
 // test getting by id
 test('test getting image by id from database', async (done) => {
