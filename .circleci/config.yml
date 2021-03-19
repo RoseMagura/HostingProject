@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   node: circleci/node@4.2.0
-  jest: blimmer/jest@0.2.1
   # aws-cli: circleci/aws-cli@1.3.1
 jobs:
   build:
@@ -24,10 +23,10 @@ jobs:
       - node/install
       - checkout
       # - aws-cli/setup
-      # - run: 
-      #     name: Front-End Install
-      #     command: 
-      #       npm run frontend:install 
+      - run: 
+          name: Front-End Install
+          command: 
+            npm run frontend:install 
       - run: 
           name: Back-End Install
           command: 
@@ -39,8 +38,5 @@ jobs:
       #     name: Build Backend
       #     command: npm run backend:build
       - run: 
-          name: Set up DB
-          command: cd catAPI && npm run migrate
-      - run: 
           name: Run Jest Tests 
-          command: jest/test
+          command: npm run test
