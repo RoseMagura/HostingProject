@@ -54,7 +54,7 @@ class Home extends React.Component {
                 <Button onClick={this.displayAll}>See All</Button>
                 <div>
                     <h2>Pick By Title:</h2>
-                    <Select 
+                    {/* <Select 
                         onChange={this.fetchById}
                         displayEmpty>
                         <MenuItem value="" disabled>
@@ -69,7 +69,7 @@ class Home extends React.Component {
                                 {i.title}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </Select> */}
                 </div>
                 <div id="image-grid">
                     {this.state.selectedImages.map((image: ImageObject) => (
