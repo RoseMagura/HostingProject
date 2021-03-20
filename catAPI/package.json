@@ -4,7 +4,7 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "test": "jest database.test.ts",
+        "test": "jest",
         "start": "npm install && tsc && node ./dist/server.js",
         "prod": "tsc && node ./dist/server.js",
         "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",

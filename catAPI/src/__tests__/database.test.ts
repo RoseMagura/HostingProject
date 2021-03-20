@@ -1,5 +1,5 @@
 import * as pg from 'pg';
-import { expect, test, afterAll } from '@jest/globals';
+import { expect, test, afterAll, jest } from '@jest/globals';
 
 const { Pool } = pg;
 
