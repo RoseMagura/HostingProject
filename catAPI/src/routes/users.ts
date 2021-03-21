@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import { User } from '../initDB';
 import { issueToken } from '../auth/index';
-import { authOptions } from './images';
+import { authOptions } from '../auth/index';
 import * as bcrypt from 'bcrypt';
 
 const router = express.Router();

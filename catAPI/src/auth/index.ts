@@ -1,9 +1,24 @@
-import { BasicStrategy } from 'passport-http';
 import { User } from '../initDB';
-import * as passport from 'passport';
 import * as bcrypt from 'bcrypt';
-import { Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 const jwt = require('jsonwebtoken');
+
+export const authOptions = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const authHeader = req.headers.authorization;
+        const token = authHeader?.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+        req.user = decoded;
+        next();
+    } catch (error: unknown) {
+        console.error(error);
+        res.status(401).send(JSON.stringify(error));
+    }
+};
 
 export const issueToken = async (username: string, password: string, res: Response): Promise<void> => {
     const user = await User.findOne({

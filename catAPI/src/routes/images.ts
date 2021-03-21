@@ -1,29 +1,12 @@
 import * as express from 'express';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { Image } from '../initDB';
-const jwt = require('jsonwebtoken');
 import * as dotenv from 'dotenv';
+import { authOptions } from '../auth';
 
 dotenv.config();
 
 const router = express.Router();
-
-export const authOptions = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
-        req.user = decoded;
-        next();
-    } catch (error: unknown) {
-        console.error(error);
-        res.status(401).send(JSON.stringify(error));
-    }
-};
 
 router.get(
     '/all',

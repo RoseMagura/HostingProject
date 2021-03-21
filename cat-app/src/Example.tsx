@@ -1,0 +1,82 @@
+import { useState } from 'react';
+import { Image } from './Image';
+import { Button, Select, MenuItem } from '@material-ui/core';
+import { ImageObject } from './Home';
+
+const Example = () => {
+    const [allImages, setImages] = useState([{ id: 0, title: '', url: '' }]);
+    const [selectedImages, setSelected] = useState([
+        { id: 0, title: '', url: '' },
+    ]);
+
+    const fetchAll = () => {
+        const apiUrl = `${process.env.REACT_APP_API_URL}/images/all`;
+        let imageList: ImageObject[] = [];
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data) => {
+                data.forEach((element: ImageObject) => {
+                    imageList.push(element);
+                });
+                setImages(imageList);
+            })
+            .catch((error) => console.error(error));
+    };
+
+    fetchAll();
+    
+    const displayAll = () => {
+        setSelected(allImages);
+    };
+
+    const fetchById = (event: any) => {
+        const id = event.target.value;
+        const apiUrl = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data: ImageObject) => {
+                setSelected([data]);
+            });
+    };
+
+    return (
+        <div>
+                <h1>CatBook</h1>
+                <Button onClick={displayAll}>See All</Button>
+                <div>
+                    <h2>Pick By Title:</h2>
+                    <select onChange={fetchById}>
+                        <option>Select a title</option>
+                        {allImages.map((i: ImageObject) => (
+                            <option value={i.id} key={i.id} data-testid="select-option">
+                                {i.title}
+                            </option>
+                        ))}
+                    </select>
+                    {/* <Select 
+                        onChange={this.fetchById}
+                        displayEmpty>
+                        <MenuItem value="" disabled>
+                            Select a title
+                        </MenuItem>
+                        {this.state.allImages.map((i: ImageObject) => (
+                            <MenuItem
+                                value={i.id}
+                                key={i.id}
+                                data-testid="select-MenuItem"
+                            >
+                                {i.title}
+                            </MenuItem>
+                        ))}
+                    </Select> */}
+                </div>
+                <div id="image-grid">
+                    {selectedImages.map((image: ImageObject) => (
+                        <Image {...image} key={image.id}/>
+                    ))}
+                </div>
+        </div>
+    );
+};
+
+export default Example;
