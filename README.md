@@ -17,7 +17,7 @@ Run `npm run frontend:install` and
 ## Usage
 
 Go to the link [here](http://elasticbeanstalk-us-east-1-986292402400.s3-website-us-east-1.amazonaws.com/) to access the frontend, which is hosted with 
-Amazon S3.
+Amazon S3. Note: This link is temporarily disabled. I will update later.
 
 ## Tests
 

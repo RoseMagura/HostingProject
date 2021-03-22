@@ -11,7 +11,7 @@ interface imageObject {
     url: string;
 }
 
-const connectionString = process.env.TEST_DATABASE_URL;
+const connectionString = String(process.env.TEST_DATABASE_URL);
 
 const testPool = new Pool({ connectionString });
 
@@ -21,7 +21,9 @@ test('test getting images from database', async (done: any) => {
         testPool.connect((err, client, release) => {
             if (err) {
                 console.error('Error acquiring client', err.stack);
-                return err;
+                console.log(process.env.TEST_DATABASE_URL);
+                // done.fail(`Error`);
+                throw new Error('Error acquiring client');
             }
     
             client.query('SELECT * FROM images', (err, response) => {
