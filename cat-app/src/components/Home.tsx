@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Image } from './Image';
 import { Button, Select, MenuItem } from '@material-ui/core';
+import { AppHeader } from './AppHeader';
 
 export interface ImageObject {
     id: number;
@@ -46,7 +47,8 @@ const Home = () => {
 
     return (
         <div>
-            <h1>CatBook</h1>
+            {/* <h1>CatBook</h1> */}
+            <AppHeader />
             <Button onClick={displayAll}>See All</Button>
             <div>
                 <h2>Pick By Title:</h2>

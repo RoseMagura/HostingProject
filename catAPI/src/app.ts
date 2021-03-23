@@ -33,8 +33,10 @@ app.get('/', (req: Request, res: Response): void => {
 app.post(
     '/login',
     async (req: Request, res: Response): Promise<void> => {
+        console.log('req.body', req.body);
         const { username, password } = req.body;
-        await issueToken(username, password, res);
+        console.log(username, password);
+        // await issueToken(username, password, res);
     }
 );
 
