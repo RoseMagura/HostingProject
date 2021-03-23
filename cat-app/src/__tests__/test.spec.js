@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import App from '../components/App';
 
+test('Placeholder test', () => {
+    expect(1).toBe(1);
+})
 // test('renders correct title', () => {
 //   render(<App />);
 //   const titleElement = screen.getByText(/catbook/i);
