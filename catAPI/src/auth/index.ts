@@ -26,13 +26,14 @@ export const issueToken = async (username: string, password: string, res: Respon
     }).catch((error: unknown) => console.error(error));
     if (!user) {
         console.error('User does not exist');
-        res.send(JSON.stringify('Could not login: invalid username'));
+        res.status(401).send(JSON.stringify('Could not login: invalid username'));
     }
     // Check if user is null or undefined
     if (user == null) {
         console.error('User is null or undefined');
-        res.send(JSON.stringify('Error with username'));
+        res.send(JSON.stringify('Failed to login: User is null'));
     } else {
+        console.log(password);
         await bcrypt.compare(
             password,
             String(user?.get('password')),
@@ -57,7 +58,7 @@ export const issueToken = async (username: string, password: string, res: Respon
                     res.json(token);
                 } else {
                     console.log("Password doesn't match");
-                    res.send(JSON.stringify('Failed to log in'));
+                    res.status(401).send(JSON.stringify('Failed to log in: Password doesn\'t match username'));
                 }
             }
         );

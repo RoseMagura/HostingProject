@@ -35,8 +35,7 @@ app.post(
     async (req: Request, res: Response): Promise<void> => {
         console.log('req.body', req.body);
         const { username, password } = req.body;
-        console.log(username, password);
-        // await issueToken(username, password, res);
+        await issueToken(username, password, res);
     }
 );
 

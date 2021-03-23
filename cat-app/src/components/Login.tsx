@@ -1,33 +1,69 @@
 import { useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
+import {
+    Button,
+    TextField,
+    AppBar,
+    Toolbar,
+    Typography,
+} from '@material-ui/core';
+import './App.css';
 
-const Login = () => {
+interface BasicProps {
+    history: string[];
+}
+
+const Login = (props: BasicProps) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loginStatus, setStatus] = useState('');
+    const [hidden, toggleShow] = useState(true);
 
-    const submit = () => {
+    const submit = (): void => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
         console.log(username, password);
         // fetch request using apiUrl and credentials
         fetch(apiUrl, {
             method: 'POST',
-            body: JSON.stringify({username, password})
-        }).then(response => console.log(response));
-        // should return error or token
-    }
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+            // should return error or token
+        }).then(async (response) => {
+            if (response.status === 401) {
+                setStatus(await response.json());
+            } else {
+                // remove any previous error messages
+                setStatus('Successfully logged in!');
+                // set token
+                const token = await response.json();
+                localStorage.setItem('token', token);
+                // redirect to home
+                props.history.push('/');
+            }
+        });
+    };
 
-    const updateUsername = (event: any) => {
+    const updateUsername = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         console.log(typeof event);
         setUsername(event.target.value);
-    } 
+    };
 
-    const updatePassword = (event: any) => {
+    const updatePassword = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         setPassword(event.target.value);
-    }
+    };
 
     return (
         <div>
-            <h1>Login</h1>
+            <AppBar position="static" style={{ background: '#61dafb' }}>
+                <Toolbar style={{ flex: 1 }}>
+                    <Typography variant="h3">Login</Typography>
+                </Toolbar>
+            </AppBar>
             <form noValidate autoComplete="off">
                 <TextField
                     id="username"
@@ -35,14 +71,18 @@ const Login = () => {
                     variant="outlined"
                     onChange={updateUsername}
                 />
-                <TextField
-                    id="password"
-                    label="Password"
-                    variant="outlined"
-                    onChange={updatePassword}
-                />
+                <div>
+                    <TextField
+                        id="password"
+                        label="Password"
+                        variant="outlined"
+                        type={hidden ? 'password' : 'text'}
+                        onChange={updatePassword}
+                    />
+                </div>
             </form>
             <Button onClick={submit}>Submit</Button>
+            <div>{loginStatus}</div>
         </div>
     );
 };
