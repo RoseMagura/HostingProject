@@ -5,8 +5,11 @@ import {
     AppBar,
     Toolbar,
     Typography,
+    IconButton,
 } from '@material-ui/core';
 import './App.css';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 interface BasicProps {
     history: string[];
@@ -17,6 +20,11 @@ const Login = (props: BasicProps) => {
     const [password, setPassword] = useState('');
     const [loginStatus, setStatus] = useState('');
     const [hidden, toggleShow] = useState(true);
+
+    const switching = (
+    ) => {
+        toggleShow(!hidden);
+    }
 
     const submit = (): void => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
@@ -65,20 +73,31 @@ const Login = (props: BasicProps) => {
                 </Toolbar>
             </AppBar>
             <form noValidate autoComplete="off">
-                <TextField
-                    id="username"
-                    label="Username"
-                    variant="outlined"
-                    onChange={updateUsername}
-                />
-                <div>
+                <div id='grid'>
+                    <div id='textboxes'>
                     <TextField
-                        id="password"
-                        label="Password"
+                        id="username"
+                        label="Username"
                         variant="outlined"
-                        type={hidden ? 'password' : 'text'}
-                        onChange={updatePassword}
+                        onChange={updateUsername}
                     />
+                    {/* <div id='pwdRow'> */}
+                        <TextField
+                            id="password"
+                            label="Password"
+                            variant="outlined"
+                            type={hidden ? 'password' : 'text'}
+                            onChange={updatePassword}
+                        />
+                        </div>
+                        <div id='column2'>
+                            <div id='empty'></div>
+                            <div>
+                                <IconButton onClick={switching}>
+                                    {hidden ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                </IconButton>
+                            </div>
+                        </div>
                 </div>
             </form>
             <Button onClick={submit}>Submit</Button>
