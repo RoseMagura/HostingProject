@@ -31,3 +31,7 @@ img {
     justify-content: center;
     flex-wrap: wrap;
 }
+
+#headerBtn {
+    color: white;
+}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Image } from './Image';
 import { Button, Select, MenuItem } from '@material-ui/core';
 import { AppHeader } from './AppHeader';
@@ -29,7 +29,8 @@ const Home = () => {
             .catch((error) => console.error(error));
     };
 
-    fetchAll();
+    useEffect(fetchAll, []);
+    // fetchAll();
 
     const displayAll = () => {
         setSelected(allImages);
