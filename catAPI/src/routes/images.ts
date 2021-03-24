@@ -98,9 +98,9 @@ router.delete(
                     );
                 }
             }
-        } catch (error: unknown) {
+        } catch (error: any) {
             console.log(error);
-            res.send(JSON.stringify(error));
+            res.send(JSON.stringify(`${error.name} ${error.message}`));
         }
     }
 );

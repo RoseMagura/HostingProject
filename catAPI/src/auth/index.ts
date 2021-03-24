@@ -14,9 +14,10 @@ export const authOptions = (
         const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
         req.user = decoded;
         next();
-    } catch (error: unknown) {
+    } catch (error: any) {
         console.error(error);
-        res.status(401).send(JSON.stringify(error));
+        res.status(401).send(JSON.stringify(`${error.name}: ${error.message}`));
+
     }
 };
 

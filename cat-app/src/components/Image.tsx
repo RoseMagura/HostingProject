@@ -16,7 +16,9 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
                 method: 'DELETE',
                 headers: new Headers({ Authorization: token }),
             }).then(async (response) => {
-                setResponse(await response.json());
+                const feedback = await response.json(); 
+                console.log(feedback);
+                setResponse(feedback);
                 // Reload after deleting successfully?
             });
         }
