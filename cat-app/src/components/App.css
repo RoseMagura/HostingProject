@@ -35,3 +35,12 @@ img {
 #headerBtn {
     color: white;
 }
+
+.NavLink {
+    color: white;
+    text-decoration: none;
+}
+
+.NavLink:hover, #headerBtn:hover {
+    color: #349eeb;
+}

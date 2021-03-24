@@ -25,6 +25,7 @@ const Home = () => {
                     imageList.push(element);
                 });
                 setImages(imageList);
+                setSelected(imageList);
             })
             .catch((error) => console.error(error));
     };
@@ -48,9 +49,9 @@ const Home = () => {
 
     return (
         <div>
-            <AppHeader />
-            <Button onClick={displayAll}>See All</Button>
-            <div>
+            {/* <AppHeader /> */}
+            {/* <Button onClick={displayAll}>See All</Button> */}
+            {/* <div>
                 <h2>Pick By Title:</h2>
                 <Select onChange={fetchById} value="" displayEmpty>
                     <MenuItem value="" disabled>
@@ -66,7 +67,7 @@ const Home = () => {
                         </MenuItem>
                     ))}
                 </Select>
-            </div>
+            </div> */}
             <div id="image-grid">
                 {selectedImages.map(
                     (image: ImageObject) =>

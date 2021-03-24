@@ -42,7 +42,9 @@ router.post(
     '/',
     authOptions,
     async (req: any, res: Response): Promise<void> => {
+        console.log(req.body);
         const { userId, imageId } = req.body;
+        console.log(userId, imageId);
         try {
             const postResult = await Like.create({
                 userId,
