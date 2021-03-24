@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { Like } from '../initDB';
+import { Like, User } from '../initDB';
 import { authOptions } from '../auth/index';
 
 const router = express.Router();
@@ -18,6 +18,7 @@ router.get(
     }
 );
 
+// Get by like id
 router.get(
     '/id/:id',
     async (req: Request, res: Response): Promise<void> => {
@@ -30,6 +31,30 @@ router.get(
                 );
             } else {
                 res.json(like);
+            }
+        } catch (error: unknown) {
+            console.error(error);
+            res.send(JSON.stringify(error));
+        }
+    }
+);
+
+// Get by image id
+router.get(
+    '/imageId/:id',
+    async (req: Request, res: Response): Promise<void> => {
+        try {
+            const id = req.params.id;
+            const likes = await Like.findAll({
+                where: { imageId: id },
+                include: [{model: User, attributes: ['firstName', 'lastName']}]
+            });
+            if (likes === null) {
+                res.status(404).send(
+                    JSON.stringify('Could not find likes for that image')
+                );
+            } else {
+                res.json(likes);
             }
         } catch (error: unknown) {
             console.error(error);

@@ -59,10 +59,16 @@ export const Like = sequelize.define('like', {}, {});
 export const createRelationships = async () => {
     User.hasMany(Comment, { foreignKey: { name: 'userId' } });
     User.hasMany(Like, { foreignKey: { name: 'userId' } });
-
     User.hasMany(Image, { foreignKey: { name: 'userId' } });
+
     Image.hasMany(Comment, { foreignKey: { name: 'imageId' } });
     Image.hasMany(Like, { foreignKey: { name: 'imageId' } });
+
+    Like.belongsTo(User, {foreignKey: 'userId'});
+    Like.belongsTo(Image, {foreignKey: 'imageId'});
+
+    Comment.belongsTo(User, {foreignKey: 'userId'});
+    Comment.belongsTo(Image, {foreignKey: 'imageId'});
     /* Create tables if they don't already exist, but don't
     force the database drop and create existing tables */
     await sequelize.sync();

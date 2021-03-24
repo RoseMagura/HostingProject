@@ -7,6 +7,7 @@ export interface ImageObject {
     id: number;
     title: string;
     url: string;
+    likes?: any[];
 }
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
     const [selectedImages, setSelected] = useState([
         { id: 0, title: '', url: '' },
     ]);
+    // const [likes, setLikes] = useState([]);
 
     const fetchAll = () => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/images/all`;
@@ -31,21 +33,27 @@ const Home = () => {
     };
 
     useEffect(fetchAll, []);
-    // fetchAll();
+   
+    // const displayAll = () => {
+    //     setSelected(allImages);
+    // };
 
-    const displayAll = () => {
-        setSelected(allImages);
-    };
+    // const fetchById = (event: any) => {
+    //     const id = event.target.value;
+    //     const apiUrl = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
+    //     fetch(apiUrl)
+    //         .then((response) => response.json())
+    //         .then((data: ImageObject) => {
+    //             setSelected([data]);
+    //         });
+    // };
 
-    const fetchById = (event: any) => {
-        const id = event.target.value;
-        const apiUrl = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
-        fetch(apiUrl)
-            .then((response) => response.json())
-            .then((data: ImageObject) => {
-                setSelected([data]);
-            });
-    };
+    // const fetchLikes = () => {
+    //     fetch(`${process.env.REACT_APP_API_URL}/likes/all`)
+    //         .then(async (result) => console.log(await result.json()));
+    // };
+    
+    // useEffect(fetchLikes, []);
 
     return (
         <div>
