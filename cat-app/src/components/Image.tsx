@@ -7,19 +7,24 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
     const [apiResponse, setResponse] = useState('');
 
     const deleteImage = (id: number) => {
+        const token = `Bearer ${localStorage.getItem('token')}`;
+
         if (window.confirm('Are you sure you want to delete this image?')) {
             // send delete request to backend
             const url = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
-            fetch(url, { method: 'DELETE' }).then((response) => {
-                console.log(response.statusText);
-                setResponse(`${response.status}: ${response.statusText}`);
+            fetch(url, {
+                method: 'DELETE',
+                headers: new Headers({ Authorization: token }),
+            }).then(async (response) => {
+                setResponse(await response.json());
+                // Reload after deleting successfully?
             });
         }
     };
 
     const updateImage = (image: ImageObject) => {
         console.log('editing', image);
-    }
+    };
 
     return (
         <div>

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Image } from '../initDB';
 import * as dotenv from 'dotenv';
 import { authOptions } from '../auth';
+const jwt = require('jsonwebtoken');
 
 dotenv.config();
 
@@ -70,6 +71,8 @@ router.delete(
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
         try {
+            const decoded = jwt.verify(req.headers.authorization?.split(' ')[1], process.env.PRIVATE_KEY);
+            const userId = decoded['userId'];
             const image = await Image.findByPk(id);
             if (image === null) {
                 res.status(404).send(
@@ -77,18 +80,21 @@ router.delete(
                 );
             } else {
                 const name = image !== null && image.get('title');
+                console.log(image?.get('userId') == userId);
                 // admin users can delete any images, but regular users
                 // can only delete their own images
-                if (req.user?.admin || image?.get('userId') === req.user?.id) {
+                if (req.user?.admin || image?.get('userId') === userId) {
                     await Image.destroy({
                         where: {
                             id,
                         },
                     });
-                    res.send(`Deleted ${name} successfully`);
+                    res.send(JSON.stringify(`Deleted ${name} successfully`));
                 } else {
                     res.send(
-                        "Can't delete: You can only delete others' images if you are an admin."
+                        JSON.stringify(
+                            "Can't delete: You can only delete others' images if you are an admin."
+                        )
                     );
                 }
             }

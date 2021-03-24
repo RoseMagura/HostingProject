@@ -26,9 +26,9 @@ const Login = (props: BasicProps) => {
         toggleShow(!hidden);
     }
 
-    const submit = (): void => {
+    const submit = (event: any): void => {
+        event.preventDefault();
         const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
-        console.log(username, password);
         // fetch request using apiUrl and credentials
         fetch(apiUrl, {
             method: 'POST',
@@ -43,9 +43,12 @@ const Login = (props: BasicProps) => {
             } else {
                 // remove any previous error messages
                 setStatus('Successfully logged in!');
-                // set token
-                const token = await response.json();
-                localStorage.setItem('token', token);
+                // get credentials and store in Local Storage
+                const cred = await response.json();
+                console.log(cred);
+                localStorage.setItem('user', cred.userId);
+                localStorage.setItem('admin', cred.admin);
+                localStorage.setItem('token', cred.token);
                 // redirect to home
                 props.history.push('/');
             }
@@ -55,7 +58,6 @@ const Login = (props: BasicProps) => {
     const updateUsername = (
         event: React.ChangeEvent<HTMLInputElement>
     ): void => {
-        console.log(typeof event);
         setUsername(event.target.value);
     };
 
@@ -72,7 +74,7 @@ const Login = (props: BasicProps) => {
                     <Typography variant="h3">Login</Typography>
                 </Toolbar>
             </AppBar>
-            <form noValidate autoComplete="off">
+            <form noValidate onSubmit={submit}>
                 <div id='grid'>
                     <div id='textboxes'>
                     <TextField
@@ -81,7 +83,6 @@ const Login = (props: BasicProps) => {
                         variant="outlined"
                         onChange={updateUsername}
                     />
-                    {/* <div id='pwdRow'> */}
                         <TextField
                             id="password"
                             label="Password"
@@ -99,8 +100,8 @@ const Login = (props: BasicProps) => {
                             </div>
                         </div>
                 </div>
+                <Button type='submit'>Submit</Button>
             </form>
-            <Button onClick={submit}>Submit</Button>
             <div>{loginStatus}</div>
         </div>
     );

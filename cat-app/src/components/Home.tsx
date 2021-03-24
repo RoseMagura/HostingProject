@@ -47,7 +47,6 @@ const Home = () => {
 
     return (
         <div>
-            {/* <h1>CatBook</h1> */}
             <AppHeader />
             <Button onClick={displayAll}>See All</Button>
             <div>
