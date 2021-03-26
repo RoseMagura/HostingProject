@@ -9,9 +9,7 @@ module.exports = {
           password: bcrypt.hashSync(process.env.ADMIN_PASSWORD, bcrypt.genSaltSync(8)),
           firstName: 'Admin',
           lastName: 'User',
-          admin: true,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          admin: true
         }], {});
     },down: (queryInterface, Sequelize) => {
       return queryInterface.bulkDelete('users', null, {});

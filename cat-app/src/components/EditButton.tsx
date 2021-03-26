@@ -5,6 +5,7 @@ export interface ButtonProps {
     image?: ImageObject;
     id?: number;
     onClick: Function;
+    name?: string;
 }
 
 export const EditButton = (props: ButtonProps) => {
