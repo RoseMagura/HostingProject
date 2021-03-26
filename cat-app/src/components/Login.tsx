@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     TextField,
@@ -10,6 +10,7 @@ import {
 import './App.css';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { Link } from 'react-router-dom';
 
 interface BasicProps {
     history: string[];
@@ -26,7 +27,7 @@ const Login = (props: BasicProps) => {
         toggleShow(!hidden);
     }
 
-    const submit = (event: any): void => {
+    const submit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
         // fetch request using apiUrl and credentials
@@ -45,8 +46,8 @@ const Login = (props: BasicProps) => {
                 setStatus('Successfully logged in!');
                 // get credentials and store in Local Storage
                 const cred = await response.json();
-                console.log(cred);
-                localStorage.setItem('user', cred.userId);
+                
+                localStorage.setItem('id', cred.userId);
                 localStorage.setItem('admin', cred.admin);
                 localStorage.setItem('token', cred.token);
                 // redirect to home
@@ -103,6 +104,9 @@ const Login = (props: BasicProps) => {
                 <Button type='submit'>Submit</Button>
             </form>
             <div>{loginStatus}</div>
+            <Link to='/signup'>
+                <Button>Sign Up</Button>
+            </Link>
         </div>
     );
 };

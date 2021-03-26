@@ -3,11 +3,19 @@ import { ImageObject } from './Home';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 
-
+// TODO: Separate interfaces into own folder + files
 export interface Like {
     id: number;
     imageId: number;
     userId: number;
+}
+
+export interface User {
+    id: number;
+    firstName?: string;
+    lastName?: string;
+    password?: string;
+    admin: boolean;
 }
 
 export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
@@ -15,6 +23,24 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
     const [likes, setLikes] = useState<Like[]>([]);
     const [alreadyLiked, setLike] = useState(false);
     const [myLike, setMyLike] = useState<Like | null>(null);
+    const [currUser, setUser] = useState<User | null>(null);
+
+    // set up user and adjust UI accordingly
+    const userData = localStorage.getItem('id');
+    useEffect(() => {
+        console.log(userData);
+        if(userData !== null) {
+            // console.log(localStorage);
+            const id = parseInt(userData);
+            const admin = Boolean(localStorage.getItem('admin'));
+            setUser({id, admin});
+        } else {
+            console.log('logged out');
+            setUser(null);
+        }
+    }, [localStorage]);
+
+    // console.log(currUser);
 
     // send fetch request to get the likes for the individual image
     const fetchLikes = () => {
@@ -24,15 +50,15 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
             const likeList = await result.json();
             if (likeList.length > 0) {
                 setLikes(likeList);
-                likeList.map((x: Like) => {
-                    if (String(x.userId) === String(localStorage.getItem('user'))) {
-                        setLike(true);
-                        setMyLike(x);
-                        console.log('already liked');
+                if(localStorage.getItem('user') !== null){
+                    likeList.map((x: Like) => {
+                        if (String(x.userId) === String(localStorage.getItem('user'))) {
+                            setLike(true);
+                            setMyLike(x);
+                        }
                     }
-                    console.log(x.userId, localStorage.getItem('user'));
-                }
-                );
+                    );
+            }
             }
         })
     };
@@ -61,7 +87,6 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
     };
 
     const likeImage = (imageId: number) => {
-        console.log('liking', imageId);
         const userId = String(localStorage.getItem('user'));
         fetch(`${process.env.REACT_APP_API_URL}/likes`, {
             method: 'POST',
@@ -76,9 +101,6 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
                 alert(await res.json());
             }
             fetchLikes();
-
-            // window.location.reload();
-            // TODO: update element
         });
     };
 
@@ -94,7 +116,7 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
             if (res.status !== 200) {
                 alert(await res.json());
             }
-            const newLikes: Like[] = [];
+            const newLikes: Like[] = likes.filter(l => l.id !== id);
             setLikes(newLikes);
             const newStatus = false;
             setLike(newStatus);
@@ -106,17 +128,20 @@ export const Image: FunctionComponent<ImageObject> = (myProps: ImageObject) => {
     return (
         <div>
             <img key={myProps.id} src={myProps.url} alt={myProps.title} />
-            <DefaultButton id={myProps.id} onClick={deleteImage} name='Delete' />
-            <EditButton image={myProps} onClick={updateImage} />
-            {alreadyLiked
-                ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />
-                : <DefaultButton id={myProps.id} onClick={likeImage} name='Like' />}
-            {likes.length > 0 && (
-                <div>
-                    {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
-                </div>
-            )}
-            <div>{apiResponse}</div>
+            {currUser !== null && <div>logged in</div>}
+            <div id='button-bar'>
+                <DefaultButton id={myProps.id} onClick={deleteImage} name='Delete' />
+                <EditButton image={myProps} onClick={updateImage} />
+                {alreadyLiked
+                    ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />
+                    : <DefaultButton id={myProps.id} onClick={likeImage} name='Like' />}
+                {likes.length > 0 && (
+                    <div>
+                        {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
+                    </div>
+                )}
+                <div>{apiResponse}</div>
+            </div>
         </div>
     );
 };

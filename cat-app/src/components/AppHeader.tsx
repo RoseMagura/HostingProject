@@ -1,16 +1,26 @@
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import './App.css';
 import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export const AppHeader = () => {
-    console.log('current page', window.location.pathname);
-    const loginStatus = localStorage.getItem('user');
+    const user = localStorage.getItem('id');
+    const [loginStatus, setStatus] = useState(false);
+
+    useEffect(() => {
+        console.log(localStorage);
+        if(user){
+            console.log('switching to logout');
+            setStatus(true);
+        };
+    }, [user]);
 
     const logout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('id');
         localStorage.removeItem('admin');
         localStorage.removeItem('token');
-        window.location.reload();
+        const newStatus = false;
+        setStatus(newStatus);
     };
     return (
         <div className="title">
@@ -24,7 +34,6 @@ export const AppHeader = () => {
                         className="NavLink"
                     >
                         Images
-                        {/* <Button id="headerBtn">Images</Button> */}
                     </NavLink>
                     <NavLink
                         exact
@@ -32,10 +41,9 @@ export const AppHeader = () => {
                         activeStyle={{ fontWeight: 'bold' }}
                         className="NavLink"
                     >
-                        {/* <Button id="headerBtn">Friends</Button> */}
                         Friends
                     </NavLink>
-                    {loginStatus === null ? (
+                    {loginStatus === false ? (
                         <NavLink to="/login">
                             <Button id="headerBtn">Login</Button>
                         </NavLink>
