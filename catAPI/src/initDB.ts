@@ -4,11 +4,11 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 dotenv.config();
 
-export const sequelize = new Sequelize(String(process.env.LOCAL_CONNECTION), {
-    define: {
-        timestamps: false,
-    },
-});
+export const sequelize = new Sequelize(
+    String(process.env.PGDATABASE),
+    String(process.env.PGUSER),
+    String(process.env.PGPASSWORD),
+    { dialect: 'postgres' });
 
 export const testConnection = async () => {
     try {
@@ -64,11 +64,11 @@ export const createRelationships = async () => {
     Image.hasMany(Comment, { foreignKey: { name: 'imageId' } });
     Image.hasMany(Like, { foreignKey: { name: 'imageId' } });
 
-    Like.belongsTo(User, {foreignKey: 'userId'});
-    Like.belongsTo(Image, {foreignKey: 'imageId'});
+    Like.belongsTo(User, { foreignKey: 'userId' });
+    Like.belongsTo(Image, { foreignKey: 'imageId' });
 
-    Comment.belongsTo(User, {foreignKey: 'userId'});
-    Comment.belongsTo(Image, {foreignKey: 'imageId'});
+    Comment.belongsTo(User, { foreignKey: 'userId' });
+    Comment.belongsTo(Image, { foreignKey: 'imageId' });
     /* Create tables if they don't already exist, but don't
     force the database drop and create existing tables */
     await sequelize.sync();

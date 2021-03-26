@@ -12,7 +12,9 @@
         "createDB": "node_modules/.bin/sequelize db:create",
         "createTestDB": "node_modules/.bin/sequelize db:create --env=test",
         "migrate": "node_modules/.bin/sequelize db:migrate",
-        "seed": "node_modules/.bin/sequelize db:seed:all"
+        "test:migrate": "node_modules/.bin/sequelize db:migrate --env=test",
+        "seed": "node_modules/.bin/sequelize db:seed:all",
+        "test:seed": "node_modules/.bin/sequelize db:seed:all --env=test"
     },
     "repository": {
         "type": "git",
