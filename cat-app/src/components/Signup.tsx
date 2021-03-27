@@ -1,10 +1,15 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
     Button,
-    TextField
+    TextField,
+    AppBar,
+    Toolbar,
+    Typography,
+    LinearProgress
 } from '@material-ui/core';
 import './App.css';
 import { Link } from 'react-router-dom';
+import { AppHeader } from './AppHeader';
 
 const Signup = () => {
     const submit = () => {
@@ -12,7 +17,6 @@ const Signup = () => {
     }
 
     return (<div>
-        <h1>SIGN UP</h1>
         <form noValidate onSubmit={submit}>
             <div id='grid'>
                 <div id='textboxes'>
@@ -35,6 +39,11 @@ const Signup = () => {
 
             </div>
             <Button type='submit'>Submit</Button>
+            <Link to='/login'>
+                <Button>
+                    Return to Login
+                </Button>
+            </Link>
         </form>
     </div>
     )

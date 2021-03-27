@@ -1,27 +1,8 @@
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import './App.css';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 
-export const AppHeader = () => {
-    const user = localStorage.getItem('id');
-    const [loginStatus, setStatus] = useState(false);
-
-    useEffect(() => {
-        console.log(localStorage);
-        if(user){
-            console.log('switching to logout');
-            setStatus(true);
-        };
-    }, [user]);
-
-    const logout = () => {
-        localStorage.removeItem('id');
-        localStorage.removeItem('admin');
-        localStorage.removeItem('token');
-        const newStatus = false;
-        setStatus(newStatus);
-    };
+export const AppHeader = (props: any) => {
     return (
         <div className="title">
             <AppBar position="static" style={{ background: '#61dafb' }}>
@@ -43,12 +24,12 @@ export const AppHeader = () => {
                     >
                         Friends
                     </NavLink>
-                    {loginStatus === false ? (
+                    {props.value === false ? (
                         <NavLink to="/login">
                             <Button id="headerBtn">Login</Button>
                         </NavLink>
                     ) : (
-                        <Button id="headerBtn" onClick={logout}>
+                        <Button id="headerBtn" onClick={props.onChange}>
                             Logout
                         </Button>
                     )}
