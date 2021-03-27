@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
+import { BasicProps } from '../interfaces/BasicProps';
+import { ImageObject } from '../interfaces/ImageObject';
 import { Image } from './Image';
 
-export interface ImageObject {
-    id: number;
-    title: string;
-    url: string;
-    likes?: any[];
-}
-
-const Home = () => {
-    // TODO: Replace loginStatus with prop
-    const [loginStatus, setStatus] = useState(false);
+const Home = (props: BasicProps) => {
+    useEffect(() => {console.log(props)}, [props]);
+    const loginStatus = props;
     const [selectedImages, setSelected] = useState([
         { id: 0, title: '', url: '' },
     ]);

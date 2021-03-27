@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { ButtonProps } from './EditButton';
+import { ButtonProps } from '../interfaces/ButtonProps';
 
 export const DefaultButton = (props: ButtonProps) => {
     const handleClick = () => {

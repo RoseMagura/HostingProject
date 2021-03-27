@@ -11,16 +11,16 @@ import './App.css';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
-
-interface BasicProps {
-    history: string[];
-}
+import { BasicProps } from '../interfaces/BasicProps';
+import { useHistory } from 'react-router-dom';
 
 const Login = (props: BasicProps) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loginStatus, setStatus] = useState('');
     const [hidden, toggleShow] = useState(true);
+
+    const history = useHistory(); 
 
     const switching = (
     ) => {
@@ -29,6 +29,7 @@ const Login = (props: BasicProps) => {
 
     const submit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
+       
         const apiUrl = `${process.env.REACT_APP_API_URL}/login`;
         // fetch request using apiUrl and credentials
         fetch(apiUrl, {
@@ -50,8 +51,10 @@ const Login = (props: BasicProps) => {
                 localStorage.setItem('id', cred.userId);
                 localStorage.setItem('admin', cred.admin);
                 localStorage.setItem('token', cred.token);
+
+                props.onChange !== undefined && props.onChange(true);
                 // redirect to home
-                props.history.push('/');
+                history.push('/');
             }
         });
     };

@@ -7,19 +7,13 @@ import { AppHeader } from './AppHeader';
 import Signup from './Signup';
 import { useEffect, useState } from 'react';
 
-function App() {
+const App = (props: any) => {
     const user = localStorage.getItem('id');
-    const [loginStatus, setStatus] = useState(false);
+    const [loginStatus, setStatus] = useState(user !== undefined);
 
-    console.log('LS', loginStatus);
-    
     useEffect(() => {
-        console.log("running");
-        if(user){
-            console.log('switching to logout');
-            setStatus(true);
-        };
-    }, [user]);
+        console.log('LS', loginStatus);
+    }, []);
 
     const logout = () => {
         localStorage.removeItem('id');
@@ -30,11 +24,18 @@ function App() {
         console.log('logging out');
     };
 
+    const update = (result: boolean) => {
+        setStatus(result);
+    }
+
     return (
         <div className="App">
             <AppHeader value={loginStatus} onChange={logout}/>
-            <Route exact path='/' component={Home} />
-            <Route path='/login' component={Login}/>
+            <Route exact path='/' render={() => (<Home value={loginStatus}/>)}/>
+            <Route path='/login' 
+                render={() => (<Login onChange={update} />)}
+            // component={Login}
+             />
             <Route path='/users' component={UserList}/>
             <Route path='/signup' component={Signup}/>
         </div>

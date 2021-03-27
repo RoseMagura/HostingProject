@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import {
     Button,
     TextField,
@@ -12,7 +11,8 @@ import { Link } from 'react-router-dom';
 import { AppHeader } from './AppHeader';
 
 const Signup = () => {
-    const submit = () => {
+    const submit = (event: any) => {
+        event.preventDefault();
         console.log('submitting');
     }
 

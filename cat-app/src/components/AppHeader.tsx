@@ -1,8 +1,9 @@
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import './App.css';
 import { NavLink } from 'react-router-dom';
+import { BasicProps } from '../interfaces/BasicProps';
 
-export const AppHeader = (props: any) => {
+export const AppHeader = (props: BasicProps) => {
     return (
         <div className="title">
             <AppBar position="static" style={{ background: '#61dafb' }}>

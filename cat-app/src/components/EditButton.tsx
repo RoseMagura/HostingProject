@@ -1,12 +1,5 @@
 import { Button } from '@material-ui/core';
-import { ImageObject } from './Home';
-
-export interface ButtonProps {
-    image?: ImageObject;
-    id?: number;
-    onClick: Function;
-    name?: string;
-}
+import { ButtonProps } from '../interfaces/ButtonProps';
 
 export const EditButton = (props: ButtonProps) => {
     const handleClick = () => {
