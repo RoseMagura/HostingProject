@@ -25,7 +25,7 @@ export const AppHeader = (props: BasicProps) => {
                     >
                         Friends
                     </NavLink>
-                    {props.value === false ? (
+                    {!props.value ? (
                         <NavLink to="/login">
                             <Button id="headerBtn">Login</Button>
                         </NavLink>

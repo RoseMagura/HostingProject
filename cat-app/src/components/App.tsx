@@ -5,15 +5,11 @@ import UserList from './UserList';
 import { Route } from 'react-router-dom';
 import { AppHeader } from './AppHeader';
 import Signup from './Signup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-const App = (props: any) => {
+const App = () => {
     const user = localStorage.getItem('id');
     const [loginStatus, setStatus] = useState(user !== undefined);
-
-    useEffect(() => {
-        console.log('LS', loginStatus);
-    }, []);
 
     const logout = () => {
         localStorage.removeItem('id');

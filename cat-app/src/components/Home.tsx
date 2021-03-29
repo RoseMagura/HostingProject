@@ -4,8 +4,7 @@ import { ImageObject } from '../interfaces/ImageObject';
 import { Image } from './Image';
 
 const Home = (props: BasicProps) => {
-    useEffect(() => {console.log(props)}, [props]);
-    const loginStatus = props;
+    const loginStatus = Boolean(props.value);
     const [selectedImages, setSelected] = useState([
         { id: 0, title: '', url: '' },
     ]);

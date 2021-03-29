@@ -3,16 +3,17 @@ import { ImageObject } from '../interfaces/ImageObject';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 import { Like } from '../interfaces/Like';
+import { ImageProps } from '../interfaces/ImageProps';
 
-export const Image = (myProps: any) => {
+export const Image = (myProps: ImageProps) => {
     const [apiResponse, setResponse] = useState('');
     const [likes, setLikes] = useState<Like[]>([]);
     const [alreadyLiked, setLike] = useState(false);
     const [myLike, setMyLike] = useState<Like | null>(null);
-    const [loggedIn, setLogin] = useState(myProps.loginStatus.value);
+    const [loggedIn, setLogin] = useState(myProps.loginStatus);
 
     useEffect(() => {
-        setLogin(myProps.loginStatus.value);
+        setLogin(myProps.loginStatus);
     }, [myProps.loginStatus]);
 
     // send fetch request to get the likes for the individual image
@@ -23,9 +24,9 @@ export const Image = (myProps: any) => {
             const likeList = await result.json();
             if (likeList.length > 0) {
                 setLikes(likeList);
-                if (localStorage.getItem('user') !== null) {
+                if (localStorage.getItem('id') !== null) {
                     likeList.map((x: Like) => {
-                        if (String(x.userId) === String(localStorage.getItem('user'))) {
+                        if (String(x.userId) === String(localStorage.getItem('id'))) {
                             setLike(true);
                             setMyLike(x);
                         }
@@ -60,7 +61,7 @@ export const Image = (myProps: any) => {
     };
 
     const likeImage = (imageId: number) => {
-        const userId = String(localStorage.getItem('user'));
+        const userId = String(localStorage.getItem('id'));
         fetch(`${process.env.REACT_APP_API_URL}/likes`, {
             method: 'POST',
             headers: new Headers({
@@ -73,6 +74,7 @@ export const Image = (myProps: any) => {
             if (res.status !== 200) {
                 alert(await res.json());
             }
+            setLike(true);
             fetchLikes();
         });
     };
