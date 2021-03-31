@@ -1,20 +1,91 @@
 import {
     Button,
     TextField,
-    AppBar,
-    Toolbar,
-    Typography,
-    LinearProgress
+    IconButton
 } from '@material-ui/core';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import './App.css';
 import { Link } from 'react-router-dom';
-import { AppHeader } from './AppHeader';
+import { useState, FormEvent } from 'react';
 
 const Signup = () => {
-    const submit = (event: any) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordRepeat, setRepeat] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [loginStatus, setStatus] = useState('');
+    const [hidden, toggleShow] = useState(true);
+
+    const switching = (
+        ) => {
+            toggleShow(!hidden);
+        }
+
+    const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('submitting');
+        // check that password was correctly entered
+        if (password !== passwordRepeat) {
+            setStatus('Error: Passwords do not match');
+        } else {
+            setStatus('');
+        }
+        // Send fetch request to backend to create user
+        const apiUrl = `${process.env.REACT_APP_API_URL}/users`;
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({ username, password, firstName, lastName }),
+            // should return error or token
+        }).then(async (response) => {
+            if (response.status === 401) {
+                setStatus(await response.json());
+            } else {
+                // remove any previous error messages
+                setStatus('Successfully created user!');
+                // get credentials and store in Local Storage
+                const cred = await response.json();
+                console.log(cred);
+                // Get token and store in local storage
+                localStorage.setItem('token', cred.token);
+                localStorage.setItem('id', cred.userId);
+                localStorage.setItem('admin', cred.admin);
+            }
+        });
     }
+
+    const updateUsername = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setUsername(event.target.value);
+    };
+
+    const updatePassword = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setPassword(event.target.value);
+    };
+
+    const updateRepeat = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setRepeat(event.target.value);
+    };
+
+    const updateFirstName = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setFirstName(event.target.value);
+    };
+
+    const updateLastName = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setLastName(event.target.value);
+    };
 
     return (<div>
         <form noValidate onSubmit={submit}>
@@ -24,20 +95,44 @@ const Signup = () => {
                         id="username"
                         label="Username"
                         variant="outlined"
+                        onChange={updateUsername}
                     />
                     <TextField
                         id="password"
                         label="Password"
                         variant="outlined"
+                        type={hidden ? 'password' : 'text'}
+                        onChange={updatePassword}
                     />
                     <TextField
                         id="confirm-password"
                         label="Re-enter Password"
                         variant="outlined"
+                        type={hidden ? 'password' : 'text'}
+                        onChange={updateRepeat}
+                    />
+                    <TextField
+                        id="first-name"
+                        label="First Name"
+                        variant="outlined"
+                        onChange={updateFirstName}
+                    />
+                    <TextField
+                        id="last-name"
+                        label="Last Name"
+                        variant="outlined"
+                        onChange={updateLastName}
                     />
                 </div>
-
+                <div id='sign-up-column2'>
+                    <div>
+                        <IconButton onClick={switching}>
+                            {hidden ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                        </IconButton>
+                    </div>
+                </div>
             </div>
+            <div>{loginStatus}</div>
             <Button type='submit'>Submit</Button>
             <Link to='/login'>
                 <Button>

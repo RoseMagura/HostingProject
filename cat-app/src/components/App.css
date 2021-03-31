@@ -44,3 +44,7 @@ img {
 .NavLink:hover, #headerBtn:hover {
     color: #349eeb;
 }
+
+#sign-up-column2 {
+    margin-top: 25%;
+}
