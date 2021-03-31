@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
-import { Comment } from '../initDB';
+import { Comment, User } from '../initDB';
 import { authOptions } from '../auth/index';
 
 const router = express.Router();
@@ -18,6 +18,7 @@ router.get(
     }
 );
 
+// Get by comment id
 router.get(
     '/id/:id',
     async (req: Request, res: Response): Promise<void> => {
@@ -37,6 +38,26 @@ router.get(
         }
     }
 );
+
+// Get by image id
+router.get('/imageId/:id', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const id = req.params.id;
+        const comments = await Comment.findAll({
+            where: { imageId: id },
+            include: [{model: User, attributes: ['firstName', 'lastName']}]
+        });
+        if (comments === null) {
+            res.status(404).send(
+                JSON.stringify('Could not find any comments for that image')
+            );
+        }
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        res.send(JSON.stringify(error));
+    }
+});
 
 router.post(
     '/',

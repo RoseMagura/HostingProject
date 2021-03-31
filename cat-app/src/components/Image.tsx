@@ -4,10 +4,14 @@ import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 import { Like } from '../interfaces/Like';
 import { ImageProps } from '../interfaces/ImageProps';
+import { CommentList } from './CommentList';
+import { Comment } from '../interfaces/Comment';
 
 export const Image = (myProps: ImageProps) => {
     const [apiResponse, setResponse] = useState('');
     const [likes, setLikes] = useState<Like[]>([]);
+    const [comments, setComments] = useState<Comment[]>([]);
+
     const [alreadyLiked, setLike] = useState(false);
     const [myLike, setMyLike] = useState<Like | null>(null);
     const [loggedIn, setLogin] = useState(myProps.loginStatus);
@@ -37,6 +41,21 @@ export const Image = (myProps: ImageProps) => {
         })
     };
 
+    const fetchComments = () => {
+        fetch(`${process.env.REACT_APP_API_URL}/comments/imageId/${myProps.id}`).then(
+            async (res) => {
+                // console.log(await res.json());
+                const commentList = await res.json();
+                if (commentList.length > 0) {
+                    // console.log(commentList);
+                    setComments(commentList);
+                    // TODO: Filter to see which belong to currently logged in user
+                }
+            }
+        )
+    }
+
+    useEffect(fetchComments, []);
     useEffect(fetchLikes, []);
 
     const deleteImage = (id: number) => {
@@ -79,7 +98,6 @@ export const Image = (myProps: ImageProps) => {
         });
     };
 
-
     const deleteLike = (id: number) => {
         fetch(`${process.env.REACT_APP_API_URL}/likes/id/${id}`, {
             method: 'DELETE',
@@ -113,6 +131,8 @@ export const Image = (myProps: ImageProps) => {
                     {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
                 </div>
             )}
+            {/* {JSON.stringify(comments)} */}
+            <CommentList comments={comments}/>
         </div>
     );
 };
