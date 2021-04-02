@@ -70,13 +70,14 @@ router.post(
                 imageId,
                 text,
             });
-            res.send(
-                JSON.stringify(
-                    `Created comment with id ${postResult.get(
-                        'id'
-                    )} successfully`
-                )
-            );
+            // res.send(
+            //     JSON.stringify(
+            //         `Created comment with id ${postResult.get(
+            //             'id'
+            //         )} successfully`
+            //     )
+            // );
+            res.json(postResult);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));

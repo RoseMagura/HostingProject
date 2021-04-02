@@ -132,7 +132,7 @@ export const Image = (myProps: ImageProps) => {
                 </div>
             )}
             {/* {JSON.stringify(comments)} */}
-            <CommentList comments={comments}/>
+            <CommentList array={comments} imageId={myProps.id}/>
         </div>
     );
 };
