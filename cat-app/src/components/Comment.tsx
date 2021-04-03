@@ -2,7 +2,6 @@ import { Comment as CommentInterface} from "../interfaces/Comment";
 import { DefaultButton } from "./DefaultButton"
 
 export const Comment = (props: CommentInterface) => {
-    // console.log(props);
     const deleteComment = () => {
         console.log('deleting');
     }

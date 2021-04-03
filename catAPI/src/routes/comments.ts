@@ -45,7 +45,7 @@ router.get('/imageId/:id', async (req: Request, res: Response): Promise<void> =>
         const id = req.params.id;
         const comments = await Comment.findAll({
             where: { imageId: id },
-            include: [{model: User, attributes: ['firstName', 'lastName']}]
+            include: [{ model: User, attributes: ['firstName', 'lastName'] }]
         });
         if (comments === null) {
             res.status(404).send(
@@ -70,14 +70,12 @@ router.post(
                 imageId,
                 text,
             });
-            // res.send(
-            //     JSON.stringify(
-            //         `Created comment with id ${postResult.get(
-            //             'id'
-            //         )} successfully`
-            //     )
-            // );
-            res.json(postResult);
+            const fullComment =
+                await Comment.findAll({
+                    where: { id: Number(postResult.get('id')) },
+                    include: [{ model: User, attributes: ['firstName', 'lastName'] }]
+                });
+            res.json(fullComment);
         } catch (error: unknown) {
             console.error(error);
             res.send(JSON.stringify(error));

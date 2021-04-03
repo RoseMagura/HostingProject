@@ -44,10 +44,8 @@ export const Image = (myProps: ImageProps) => {
     const fetchComments = () => {
         fetch(`${process.env.REACT_APP_API_URL}/comments/imageId/${myProps.id}`).then(
             async (res) => {
-                // console.log(await res.json());
                 const commentList = await res.json();
                 if (commentList.length > 0) {
-                    // console.log(commentList);
                     setComments(commentList);
                     // TODO: Filter to see which belong to currently logged in user
                 }
@@ -131,7 +129,6 @@ export const Image = (myProps: ImageProps) => {
                     {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
                 </div>
             )}
-            {/* {JSON.stringify(comments)} */}
             <CommentList array={comments} imageId={myProps.id}/>
         </div>
     );
