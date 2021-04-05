@@ -17,7 +17,7 @@ export const Comment = (props: CommentInterface) => {
             </div>
             {/* TODO: Only visible if admin or the commenter */}
             <div>
-                <DefaultButton onClick={deleteComment} name='Delete'/>
+                <DefaultButton onClick={props.func} name='Delete'/>
                 <DefaultButton onClick={editComment} name='Edit'/>
             </div>
         </div>

@@ -37,6 +37,10 @@ export const CommentList = (props: CommentListProps) => {
         setText(event.target.value);
     }
 
+    const deleteComment = () => {
+        console.log(`deleting from comment list component`);
+    }
+
     const keyPress = (e: React.KeyboardEvent<HTMLDivElement>, imageId: number) => {
         if (e.key === 'Enter') {
             createComment(e, imageId);
@@ -48,7 +52,7 @@ export const CommentList = (props: CommentListProps) => {
                 {  
                     comments.map(
                         (comment: CommentInterface) =>
-                                <Comment {...comment} key={`C${comment.id}`} />
+                                <Comment {...comment} key={`C${comment.id}`} func={deleteComment}/>
                     )
                     }
                 <form onSubmit={event => createComment(event, imageId)}>

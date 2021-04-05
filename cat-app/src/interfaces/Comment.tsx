@@ -9,4 +9,5 @@ export interface Comment {
     updatedAt?: string;
     key?: string;
     user?: User;
+    func: Function;
 }
