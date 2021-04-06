@@ -37,8 +37,8 @@ export const CommentList = (props: CommentListProps) => {
         setText(event.target.value);
     }
 
-    const deleteComment = () => {
-        console.log(`deleting from comment list component`);
+    const deleteComment = (id: number) => {
+        console.log(`deleting ${id} from comment list component`);
     }
 
     const keyPress = (e: React.KeyboardEvent<HTMLDivElement>, imageId: number) => {
