@@ -15,6 +15,15 @@ export const Image = (myProps: ImageProps) => {
     const [alreadyLiked, setLike] = useState(false);
     const [myLike, setMyLike] = useState<Like | null>(null);
     const [loggedIn, setLogin] = useState(myProps.loginStatus);
+    const [hover, setHover] = useState(false);
+
+    const onHover = () => {
+        setHover(true);
+    }
+
+    const onLeave = () => {
+        setHover(false);
+    }
 
     useEffect(() => {
         setLogin(myProps.loginStatus);
@@ -108,11 +117,25 @@ export const Image = (myProps: ImageProps) => {
                 <div>{apiResponse}</div>
             </div>}
             {likes.length > 0 && (
-                <div>
-                    {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
+                <div onMouseEnter={onHover} onMouseLeave={onLeave}>
+                    { hover
+                        ? <div>
+                            <ul>
+                                {likes.map(l =>
+                                    <li 
+                                    key={`like-user-${l.userId}`}
+                                    style={{listStyle: 'none'}}
+                                    >{`${l.user?.firstName} ${l.user?.lastName}`}</li>
+                                )}
+                                liked this image
+                            </ul>
+                        </div>
+                        : <div>
+                            {likes.length} {likes.length > 1 ? 'Likes' : 'Like'}
+                        </div>}
                 </div>
             )}
-            <CommentList array={comments} imageId={myProps.id}/>
+            <CommentList array={comments} imageId={myProps.id} />
         </div>
     );
 };
