@@ -11,6 +11,7 @@ const Home = (props: BasicProps) => {
     ]);
     const [url, setUrl] = useState('');
     const [title, setTitle] = useState('');
+    const [postResponse, setResponse] = useState('');
     const [displayForm, toggleDisplay] = useState(false);
 
     const fetchAll = () => {
@@ -30,11 +31,10 @@ const Home = (props: BasicProps) => {
     const toggleDisplayForm = () => {
         toggleDisplay(!displayForm); // TODO: Edit
     }
+
     const postImage = () => {
-        console.log('creating image');
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('id');
-        console.log(token, userId);
         fetch(`${process.env.REACT_APP_API_URL}/images`, {
             method: 'POST',
             headers: {
@@ -42,16 +42,40 @@ const Home = (props: BasicProps) => {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({title, url, userId})
-        }).then(async res => console.log(await res.json()));
+        }).then(async res => {
+            setResponse(await res.json());
+            toggleDisplay(false);
+            fetchAll();
+        }
+        );
     }
 
-    const updateTitle = (event: any) => {
+    const updateTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
     }
 
-    const updateUrl = (e: any) => {
+    const updateUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUrl(e.target.value);
     }
+
+    const deleteImage = (id: number) => {
+        const token = `Bearer ${localStorage.getItem('token')}`;
+
+        if (window.confirm('Are you sure you want to delete this image?')) {
+            // send delete request to backend
+            const url = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
+            fetch(url, {
+                method: 'DELETE',
+                headers: new Headers({ Authorization: token }),
+            }).then(async (response) => {
+                const feedback = await response.json();
+                alert(feedback);
+                console.log(selectedImages);
+                const filteredImages = selectedImages.filter(img => img.id !== id);
+                setSelected(filteredImages);
+            });
+        }
+    };
 
     useEffect(fetchAll, []);
 
@@ -73,12 +97,13 @@ const Home = (props: BasicProps) => {
                         <Button onClick={toggleDisplayForm}>Cancel</Button>
                     </div>
                 }
+                <div>{postResponse}</div>
             </div>
             <div id="image-grid">
                 {selectedImages.map(
                     (image: ImageObject) =>
                         image.title !== '' && (
-                            <Image {...image} key={image.id} loginStatus={loginStatus}/>
+                            <Image {...image} key={image.id} loginStatus={loginStatus} delete={deleteImage}/>
                         )
                 )}
             </div>

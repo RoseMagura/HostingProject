@@ -56,23 +56,6 @@ export const Image = (myProps: ImageProps) => {
     useEffect(fetchComments, []);
     useEffect(fetchLikes, []);
 
-    const deleteImage = (id: number) => {
-        const token = `Bearer ${localStorage.getItem('token')}`;
-
-        if (window.confirm('Are you sure you want to delete this image?')) {
-            // send delete request to backend
-            const url = `${process.env.REACT_APP_API_URL}/images/id/${id}`;
-            fetch(url, {
-                method: 'DELETE',
-                headers: new Headers({ Authorization: token }),
-            }).then(async (response) => {
-                const feedback = await response.json();
-                setResponse(feedback);
-                // TODO: Home should update after deleting successfully
-            });
-        }
-    };
-
     const updateImage = (image: ImageObject) => {
         console.log('editing', image);
     };
@@ -117,7 +100,7 @@ export const Image = (myProps: ImageProps) => {
         <div>
             <img key={myProps.id} src={myProps.url} alt={myProps.title} />
             {loggedIn && <div id='button-bar'>
-                <DefaultButton id={myProps.id} onClick={deleteImage} name='Delete' />
+                <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
                 <EditButton image={myProps} onClick={updateImage} />
                 {alreadyLiked
                     ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />

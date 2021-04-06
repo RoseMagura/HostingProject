@@ -8,4 +8,5 @@ export interface ImageProps {
     url: string;
     createdAt?: any;
     updatedAt?: any;
+    delete: Function;
 }
