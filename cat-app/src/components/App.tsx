@@ -9,7 +9,8 @@ import { useState } from 'react';
 
 const App = () => {
     const user = localStorage.getItem('id');
-    const [loginStatus, setStatus] = useState(user !== undefined);
+    console.log(user);
+    const [loginStatus, setStatus] = useState(user !== undefined && user !== null);
 
     const logout = () => {
         localStorage.removeItem('id');
@@ -30,7 +31,6 @@ const App = () => {
             <Route exact path='/' render={() => (<Home value={loginStatus}/>)}/>
             <Route path='/login' 
                 render={() => (<Login onChange={update} />)}
-            // component={Login}
              />
             <Route path='/users' component={UserList}/>
             <Route path='/signup' component={Signup}/>

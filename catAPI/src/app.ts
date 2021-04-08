@@ -20,6 +20,7 @@ declare global {
         interface User {
             id: string;
             admin?: boolean;
+            userId?: number;
         }
     }
 }

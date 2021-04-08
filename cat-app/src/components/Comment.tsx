@@ -1,4 +1,4 @@
-import { Comment as CommentInterface} from "../interfaces/Comment";
+import { Comment as CommentInterface } from "../interfaces/Comment";
 import { DefaultButton } from "./DefaultButton"
 
 export const Comment = (props: CommentInterface) => {
@@ -13,10 +13,11 @@ export const Comment = (props: CommentInterface) => {
                 ${props.text}`}
             </div>
             {/* TODO: Only visible if admin or the commenter */}
-            <div>
-                <DefaultButton onClick={() => props.func(props.id)} name='Delete'/>
-                <DefaultButton onClick={editComment} name='Edit'/>
-            </div>
+            {props.loginStatus &&
+                <div>
+                    <DefaultButton onClick={() => props.func(props.id)} name='Delete' />
+                    <DefaultButton onClick={editComment} name='Edit' />
+                </div>}
         </div>
     )
 }

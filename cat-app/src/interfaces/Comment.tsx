@@ -10,4 +10,5 @@ export interface Comment {
     key?: string;
     user?: User;
     func: Function;
+    loginStatus?: boolean;
 }

@@ -135,7 +135,7 @@ export const Image = (myProps: ImageProps) => {
                         </div>}
                 </div>
             )}
-            <CommentList array={comments} imageId={myProps.id} />
+            <CommentList array={comments} imageId={myProps.id} loginStatus={loggedIn}/>
         </div>
     );
 };

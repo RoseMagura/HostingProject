@@ -90,6 +90,7 @@ router.delete(
         const id = req.params.id;
         try {
             const comment = await Comment.findByPk(id);
+
             if (comment === null) {
                 res.status(404).send(
                     JSON.stringify('Could not find that comment')
@@ -99,7 +100,7 @@ router.delete(
                 // can only delete their own comments
                 if (
                     req.user?.admin ||
-                    comment?.get('userId') === String(req.user?.id)
+                    comment?.get('userId') === req.user?.userId
                 ) {
                     await Comment.destroy({
                         where: {
@@ -108,7 +109,7 @@ router.delete(
                     });
                     res.send(JSON.stringify(`Deleted comment successfully`));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify(
                             "Can't delete: You can only delete others' comments if you are an admin."
                         )
@@ -141,7 +142,7 @@ router.put(
                 // can only edit their own comments
                 if (
                     req.user?.admin ||
-                    comment?.get('userId') === req.user?.id
+                    comment?.get('userId') === req.user?.userId
                 ) {
                     await Comment.update(
                         {
