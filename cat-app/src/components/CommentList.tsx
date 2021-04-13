@@ -39,7 +39,6 @@ export const CommentList = (props: CommentListProps) => {
     }
 
     const deleteComment = (id: number) => {
-        console.log(`deleting ${id} from comment list component`);
         fetch(`${process.env.REACT_APP_API_URL}/comments/id/${id}`, {
             method: 'DELETE',
             headers: new Headers({
@@ -49,6 +48,18 @@ export const CommentList = (props: CommentListProps) => {
             response.status !== 200 && alert(`${response.status}: ${await response.text()}`);
             const filteredComments = comments.filter(c => c.id !== id); 
             setComments(filteredComments);
+        }
+        );
+    }
+
+    const editComment = (imageId: number) => {
+        fetch(`${process.env.REACT_APP_API_URL}/comments/id/${imageId}`, {
+            method: 'PUT',
+            headers: new Headers({
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            })
+        }).then(async response => {
+            response.status !== 200 && alert(`${response.status}: ${await response.text()}`);
         }
         );
     }
@@ -66,7 +77,8 @@ export const CommentList = (props: CommentListProps) => {
                         (comment: CommentInterface) =>
                             <Comment {...comment}
                                 key={`C${comment.id}`}
-                                func={deleteComment}
+                                delete={deleteComment}
+                                edit={editComment}
                                 loginStatus={props.loginStatus} />
                     )
                 }

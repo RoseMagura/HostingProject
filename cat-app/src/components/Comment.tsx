@@ -3,9 +3,6 @@ import { DefaultButton } from "./DefaultButton"
 
 export const Comment = (props: CommentInterface) => {
 
-    const editComment = () => {
-        console.log('editing');
-    }
     return (
         <div>
             <div>
@@ -15,8 +12,8 @@ export const Comment = (props: CommentInterface) => {
             {/* TODO: Only visible if admin or the commenter */}
             {props.loginStatus &&
                 <div>
-                    <DefaultButton onClick={() => props.func(props.id)} name='Delete' />
-                    <DefaultButton onClick={editComment} name='Edit' />
+                    <DefaultButton onClick={() => props.delete(props.id)} name='Delete' />
+                    <DefaultButton onClick={() => props.edit(props.id)} name='Edit' />
                 </div>}
         </div>
     )
