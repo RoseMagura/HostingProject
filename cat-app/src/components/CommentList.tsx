@@ -52,21 +52,36 @@ export const CommentList = (props: CommentListProps) => {
         );
     }
 
-    const editComment = (imageId: number) => {
-        fetch(`${process.env.REACT_APP_API_URL}/comments/id/${imageId}`, {
+    const editComment = (commentId: number, text: String) => {
+        console.log(commentId);
+        const userId = localStorage.getItem('id');
+        fetch(`${process.env.REACT_APP_API_URL}/comments/id/${commentId}`, {
             method: 'PUT',
             headers: new Headers({
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            })
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            }),
+            body: JSON.stringify({text, userId})
         }).then(async response => {
             response.status !== 200 && alert(`${response.status}: ${await response.text()}`);
+            fetch(`${process.env.REACT_APP_API_URL}/comments/id/${commentId}`)
+                .then(async res => {
+                    const loaded = await res.json();
+                    const editedComments = comments.map(c => {
+                        if(c.id === commentId){
+                            c.text = loaded;
+                        }
+                    });
+                    console.log(editedComments);
+                    // setComments(editedComments);
+                })
         }
         );
     }
 
-    const keyPress = (e: React.KeyboardEvent<HTMLDivElement>, imageId: number) => {
+    const keyPress = (e: React.KeyboardEvent<HTMLDivElement>, commentId: number) => {
         if (e.key === 'Enter') {
-            createComment(e, imageId);
+            createComment(e, commentId);
         }
     }
     return (
