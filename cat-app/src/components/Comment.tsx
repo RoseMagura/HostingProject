@@ -20,6 +20,10 @@ export const Comment = (props: CommentInterface) => {
         setEditing(false);
     }
 
+    const cancel = () => {
+        setEditing(false);
+    }
+
     return (
         <div>
             {editing
@@ -31,6 +35,7 @@ export const Comment = (props: CommentInterface) => {
                         onChange={handleChange}
                     ></TextField>
                     <Button onClick={submit}>Submit Changes</Button>
+                    <Button onClick={cancel}>Cancel</Button>
                 </div>
                 : <div>
                     {`${props.user !== undefined && props.user.firstName} ${props.user !== undefined && props.user.lastName}: 

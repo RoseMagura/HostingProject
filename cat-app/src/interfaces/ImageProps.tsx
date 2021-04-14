@@ -1,5 +1,3 @@
-import { ImageObject } from "./ImageObject";
-
 export interface ImageProps {
     loginStatus: boolean;
     id: number;

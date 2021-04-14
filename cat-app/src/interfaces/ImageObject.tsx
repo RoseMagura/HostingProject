@@ -5,4 +5,5 @@ export interface ImageObject {
     title: string;
     url: string;
     likes?: Like[];
+    sendRes?: Function;
 }

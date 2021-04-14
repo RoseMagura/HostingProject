@@ -112,6 +112,7 @@ router.put(
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
         // Note that the request body should contain all three
+        console.log(req.body);
         const { title, url, userId } = req.body;
         try {
             const image = await Image.findByPk(id);
@@ -124,7 +125,7 @@ router.put(
                 // can only edit their own images
                 if (
                     req.user?.admin ||
-                    image?.get('userId') === String(req.user?.id)
+                    image?.get('userId') === req.user?.userId
                 ) {
                     await Image.update(
                         {
@@ -134,10 +135,10 @@ router.put(
                         },
                         { where: { id } }
                     );
-                    res.send('Edited image successfully');
+                    res.send(JSON.stringify('Edited image successfully'));
                 } else {
                     res.send(
-                        "Can't edit: You can only edit others' images if you are an admin."
+                        JSON.stringify("Can't edit: You can only edit others' images if you are an admin.")
                     );
                 }
             }

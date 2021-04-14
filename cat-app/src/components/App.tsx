@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Home from './Home';
 import Login from './Login';
 import UserList from './UserList';

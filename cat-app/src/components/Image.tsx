@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
+
 import { ImageObject } from '../interfaces/ImageObject';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
+import { CommentList } from './CommentList';
+import { Modal } from './Modal';
+
 import { Like } from '../interfaces/Like';
 import { ImageProps } from '../interfaces/ImageProps';
-import { CommentList } from './CommentList';
 import { Comment } from '../interfaces/Comment';
 
 export const Image = (myProps: ImageProps) => {
@@ -16,6 +19,10 @@ export const Image = (myProps: ImageProps) => {
     const [myLike, setMyLike] = useState<Like | null>(null);
     const [loggedIn, setLogin] = useState(myProps.loginStatus);
     const [hover, setHover] = useState(false);
+    const [editing, setEditing] = useState(false);
+
+    const [url, setUrl] = useState(myProps.url);
+    const [title, setTitle] = useState(myProps.title);
 
     const onHover = () => {
         setHover(true);
@@ -65,9 +72,21 @@ export const Image = (myProps: ImageProps) => {
     useEffect(fetchComments, []);
     useEffect(fetchLikes, []);
 
-    const updateImage = (image: ImageObject) => {
-        console.log('editing', image);
+    const updateImage = () => {
+        setEditing(true);
     };
+
+    const updateRes = async (status: any) => {
+        setEditing(false);
+        if (status.changed) {
+            setResponse(await status.res.json());
+            if (status.res.status === 200) {
+                console.log('OK', status);
+                status.newTitle !== title && setTitle(status.newTitle);
+                status.newUrl !== url && setUrl(status.newUrl);
+            }
+        }
+    }
 
     const likeImage = (imageId: number) => {
         const userId = String(localStorage.getItem('id'));
@@ -107,10 +126,12 @@ export const Image = (myProps: ImageProps) => {
     }
     return (
         <div>
-            <img key={myProps.id} src={myProps.url} alt={myProps.title} />
+            <img key={myProps.id} src={url} alt={title} />
             {loggedIn && <div id='button-bar'>
                 <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
                 <EditButton image={myProps} onClick={updateImage} />
+                {editing && <Modal id={myProps.id} title={title} url={url}
+                    func={updateRes} />}
                 {alreadyLiked
                     ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />
                     : <DefaultButton id={myProps.id} onClick={likeImage} name='Like' />}
@@ -122,9 +143,9 @@ export const Image = (myProps: ImageProps) => {
                         ? <div>
                             <ul>
                                 {likes.map(l =>
-                                    <li 
-                                    key={`like-user-${l.userId}`}
-                                    style={{listStyle: 'none'}}
+                                    <li
+                                        key={`like-user-${l.userId}`}
+                                        style={{ listStyle: 'none' }}
                                     >{`${l.user?.firstName} ${l.user?.lastName}`}</li>
                                 )}
                                 liked this image
@@ -135,7 +156,7 @@ export const Image = (myProps: ImageProps) => {
                         </div>}
                 </div>
             )}
-            <CommentList array={comments} imageId={myProps.id} loginStatus={loggedIn}/>
+            <CommentList array={comments} imageId={myProps.id} loginStatus={loggedIn} />
         </div>
     );
 };
