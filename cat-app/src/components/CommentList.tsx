@@ -45,9 +45,12 @@ export const CommentList = (props: CommentListProps) => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             })
         }).then(async response => {
-            response.status !== 200 && alert(`${response.status}: ${await response.text()}`);
-            const filteredComments = comments.filter(c => c.id !== id); 
-            setComments(filteredComments);
+            if(response.status !== 200){
+                alert(`${response.status}: ${await response.text()}`);
+            } else {
+                const filteredComments = comments.filter(c => c.id !== id); 
+                setComments(filteredComments);
+            }
         }
         );
     }
