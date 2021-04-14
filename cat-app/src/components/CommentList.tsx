@@ -53,7 +53,6 @@ export const CommentList = (props: CommentListProps) => {
     }
 
     const editComment = (commentId: number, text: String) => {
-        console.log(commentId);
         const userId = localStorage.getItem('id');
         fetch(`${process.env.REACT_APP_API_URL}/comments/id/${commentId}`, {
             method: 'PUT',
@@ -67,13 +66,15 @@ export const CommentList = (props: CommentListProps) => {
             fetch(`${process.env.REACT_APP_API_URL}/comments/id/${commentId}`)
                 .then(async res => {
                     const loaded = await res.json();
-                    const editedComments = comments.map(c => {
+                    let editedComments: CommentInterface[] = [];
+                    comments.map(c => {
                         if(c.id === commentId){
-                            c.text = loaded;
+                            editedComments.push({...c, text: loaded.text})
+                        } else {
+                            editedComments.push(c);
                         }
                     });
-                    console.log(editedComments);
-                    // setComments(editedComments);
+                    setComments(editedComments);
                 })
         }
         );
