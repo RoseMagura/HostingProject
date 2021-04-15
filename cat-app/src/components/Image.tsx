@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import { ImageObject } from '../interfaces/ImageObject';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 import { CommentList } from './CommentList';

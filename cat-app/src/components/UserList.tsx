@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
-import { BasicProps } from '../interfaces/BasicProps';
 import { User as UserInterface } from '../interfaces/User';
 
 import User from "./User"
 
-const UserList = (props: any) => {
-    const [users, setUsers] = useState<UserInterface[]>([]);
+interface UserListProps {
+    value: string | null;
+}
 
-    useEffect(() => console.log(props), []);
+const UserList = (props: UserListProps) => {
+    const [users, setUsers] = useState<UserInterface[]>([]);
+    const [apiResponse, setResponse] = useState('');
+    // useEffect(() => console.log(props), []);
 
     const fetchAll = () => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/users/all`;
@@ -19,13 +22,39 @@ const UserList = (props: any) => {
             .catch((error) => console.error(error));
     };
 
+    const deleteUser = (id: number) => {
+        if (window.confirm('Are you sure you want to delete this user?')) {
+            const token = `Bearer ${localStorage.getItem('token')}`;
+            fetch(`http://localhost:8080/users/id/${id}`,
+                {
+                    method: 'DELETE',
+                    headers: new Headers({ Authorization: token }),
+                }).then(async res => {
+                    setResponse(await res.json());
+                    if (res.status === 200) {
+                        const filteredUsers = users.filter(u => u.id !== id);
+                        setUsers(filteredUsers);
+                    }
+                }
+                )
+        }
+    }
+
+    const editUser = () => {
+        console.log('editing');
+    }
+
     useEffect(fetchAll, []);
 
     return (
         <div>
             <ul>
                 {users.map(user =>
-                    <li key={user.id}><User user={user} activeUser={props.value} /></li>
+                    <li key={user.id}>
+                        <User user={user} activeUser={String(props.value)}
+                            deleteFunc={deleteUser} edit={editUser} />
+                        {apiResponse}
+                    </li>
                 )
                 }
             </ul>
