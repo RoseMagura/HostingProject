@@ -1,7 +1,8 @@
 import { ImageObject } from "./ImageObject";
+import { User } from "./User";
 
 export interface ButtonProps {
-    image?: ImageObject;
+    item?: ImageObject | User;
     id?: number;
     onClick: Function;
     name?: string;

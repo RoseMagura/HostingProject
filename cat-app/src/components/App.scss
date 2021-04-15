@@ -56,3 +56,12 @@ img {
     box-shadow: 
       -2rem 2rem 2rem rgba(black, 0.2);
   }
+
+li {
+    list-style: none;
+}
+
+.active-user {
+    color: black;
+    font-weight: bold;
+}

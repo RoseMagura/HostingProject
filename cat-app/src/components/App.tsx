@@ -32,7 +32,7 @@ const App = () => {
             <Route path='/login' 
                 render={() => (<Login onChange={update} />)}
              />
-            <Route path='/users' component={UserList}/>
+            <Route path='/users' render={() => (<UserList value={user}/>)}/>
             <Route path='/signup' component={Signup}/>
         </div>
     );

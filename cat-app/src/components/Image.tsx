@@ -129,7 +129,7 @@ export const Image = (myProps: ImageProps) => {
             <img key={myProps.id} src={url} alt={title} />
             {loggedIn && <div id='button-bar'>
                 <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
-                <EditButton image={myProps} onClick={updateImage} />
+                <EditButton item={myProps} onClick={updateImage} />
                 {editing && <Modal id={myProps.id} title={title} url={url}
                     func={updateRes} />}
                 {alreadyLiked

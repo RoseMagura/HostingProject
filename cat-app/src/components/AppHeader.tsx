@@ -23,7 +23,7 @@ export const AppHeader = (props: BasicProps) => {
                         activeStyle={{ fontWeight: 'bold' }}
                         className="NavLink"
                     >
-                        Friends
+                        Users
                     </NavLink>
                     {!props.value ? (
                         <NavLink to="/login">

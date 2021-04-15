@@ -70,7 +70,7 @@ const Home = (props: BasicProps) => {
             }).then(async (response) => {
                 const feedback = await response.json();
                 alert(feedback);
-                if(feedback.status === 200){
+                if(response.status === 200){
                     const filteredImages = selectedImages.filter(img => img.id !== id);
                     setSelected(filteredImages);
                 }
