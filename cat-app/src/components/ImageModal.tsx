@@ -1,15 +1,14 @@
-import { ImageObject } from '../interfaces/ImageObject';
 import { Button, TextField } from '@material-ui/core';
 import { useState } from 'react';
 
-interface ModalProps {
+interface ImageModalProps {
     id: number;
     title: string;
     url: string;
     func: Function;
 }
 
-export const Modal = (props: ModalProps) => {
+export const ImageModal = (props: ImageModalProps) => {
     const { id, title, url } = props;
 
     const [newUrl, setUrl] = useState(url);

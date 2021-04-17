@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 import { CommentList } from './CommentList';
-import { Modal } from './Modal';
+import { ImageModal} from './ImageModal';
 
 import { Like } from '../interfaces/Like';
 import { ImageProps } from '../interfaces/ImageProps';
 import { Comment } from '../interfaces/Comment';
+import { EditImageResponse } from '../interfaces/EditImageResponse';
 
 export const Image = (myProps: ImageProps) => {
     const [apiResponse, setResponse] = useState('');
@@ -75,14 +76,15 @@ export const Image = (myProps: ImageProps) => {
         setEditing(true);
     };
 
-    const updateRes = async (status: any) => {
+    const updateRes = async (obj: EditImageResponse) => {
         setEditing(false);
-        if (status.changed) {
-            setResponse(await status.res.json());
-            if (status.res.status === 200) {
-                console.log('OK', status);
-                status.newTitle !== title && setTitle(status.newTitle);
-                status.newUrl !== url && setUrl(status.newUrl);
+        if (obj.changed) {
+            const info = await obj.res.json(); 
+            setResponse(String(info));
+
+            if (Number(obj.res.status) === 200) {
+                obj.newTitle !== title && setTitle(obj.newTitle);
+                obj.newUrl !== url && setUrl(obj.newUrl);
             }
         }
     }
@@ -129,7 +131,7 @@ export const Image = (myProps: ImageProps) => {
             {loggedIn && <div id='button-bar'>
                 <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
                 <EditButton item={myProps} onClick={updateImage} />
-                {editing && <Modal id={myProps.id} title={title} url={url}
+                {editing && <ImageModal id={myProps.id} title={title} url={url}
                     func={updateRes} />}
                 {alreadyLiked
                     ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />

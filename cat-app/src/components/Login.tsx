@@ -20,12 +20,12 @@ const Login = (props: BasicProps) => {
     const [loginStatus, setStatus] = useState('');
     const [hidden, toggleShow] = useState(true);
 
-    const history = useHistory(); 
-
     const switching = (
     ) => {
         toggleShow(!hidden);
     }
+
+    const history = useHistory(); 
 
     const submit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();

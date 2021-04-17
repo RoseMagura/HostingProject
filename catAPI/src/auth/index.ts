@@ -59,7 +59,7 @@ export const issueToken = async (username: string, password: string, res: Respon
                     res.json({token, userId, admin});
                 } else {
                     console.log("Password doesn't match");
-                    res.status(401).send(JSON.stringify('Failed to log in: Password doesn\'t match username'));
+                    res.status(401).send(JSON.stringify('Failed to authorize: Password doesn\'t match username'));
                 }
             }
         );
