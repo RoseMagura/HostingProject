@@ -61,7 +61,8 @@ router.post(
     }
 );
 
-// Create Admin (authorized) post route
+// Create Admin (authorized) post route 
+// Delete? Not being used by the frontend
 router.post(
     '/admin',
     authOptions,
@@ -184,20 +185,36 @@ router.put(
                         password,
                         firstName,
                         lastName,
+                        admin
                     } = req.body;
-                    const hashedPassword = await bcrypt.hash(password, 10);
-                    await User.update(
-                        {
-                            username,
-                            password: hashedPassword,
-                            firstName,
-                            lastName,
-                        },
-                        { where: { id } }
-                    );
+
+                    if (password !== undefined) {
+                        const hashedPassword = await bcrypt.hash(password, 10);
+                        await User.update(
+                            {
+                                username,
+                                password: hashedPassword,
+                                firstName,
+                                lastName,
+                                admin
+                            },
+                            { where: { id } }
+                        );
+                    } else {
+                        await User.update(
+                            {
+                                username,
+                                firstName,
+                                lastName,
+                                admin
+                            },
+                            { where: { id } }
+                        );
+                    }
                     res.send(JSON.stringify('Edited user successfully'));
+
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify(
                             "Can't edit: You can only edit other users if you are an admin."
                         )

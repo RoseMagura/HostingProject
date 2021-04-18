@@ -19,6 +19,9 @@ const User = (props: UserProps) => {
     const admin = localStorage.getItem('admin') === 'true';
     const [editing, setEditing] = useState(false);
 
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [username, setUsername] = useState(user.username);
+
     const startEditing = () => {
         edit();
         setEditing(true);
@@ -27,12 +30,9 @@ const User = (props: UserProps) => {
     const processResponse = async (obj: EditUserResponse) => {
         setEditing(false);
         if (obj.changed) {
-            const info = await obj.res.json();
-            console.log(info);
-            // setResponse(String(info));
-
             if (Number(obj.res.status) === 200) {
                 console.log('OK');
+                
                 // obj.newTitle !== title && setTitle(obj.newTitle);
                 // obj.newUrl !== url && setUrl(obj.newUrl);
             }
