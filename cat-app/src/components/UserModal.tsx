@@ -1,5 +1,10 @@
-import { Button, TextField, RadioGroup, FormControl, FormControlLabel, Radio, FormLabel } from '@material-ui/core';
+import {
+    Button, TextField, RadioGroup,
+    FormControl, FormControlLabel, Radio, FormLabel, IconButton
+} from '@material-ui/core';
 import { useState } from 'react';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 interface UserModalProps {
     id: number;
@@ -31,6 +36,7 @@ export const UserModal = (props: UserModalProps) => {
     admin ? val = 'admin' : val = 'standard';
     const [newAdmin, setAdmin] = useState(val);
     const [origPwd, setOrigPwd] = useState('');
+    const [passwordError, setPwdErr] = useState(false);
 
 
     const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +53,7 @@ export const UserModal = (props: UserModalProps) => {
 
     const updateConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(event.target.value);
+        setPwdErr(event.target.value !== newPassword);
     }
 
     const updateFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,26 +124,42 @@ export const UserModal = (props: UserModalProps) => {
     }
 
     return (
-        <div className='modal'>
-            <form>
-                <TextField label='New Username' variant='outlined' onChange={updateUsername} />
-                <TextField label='Original Password' variant='outlined' onChange={updatePrevPassword} />
+        <div className='modal' id='modal-grid'>
+            <div id='main-column'>
+                <form>
+                    <TextField label='New Username' variant='outlined' onChange={updateUsername} />
+                    <TextField label='Original Password' variant='outlined' onChange={updatePrevPassword}
+                        type={hidden ? 'password' : 'text'} />
 
-                <TextField label='New Password' variant='outlined' onChange={updatePassword} />
-                <TextField label='Re-enter New Password' variant='outlined' onChange={updateConfirmPassword} />
-                <TextField label='New First Name' variant='outlined' onChange={updateFirstName} />
-                <TextField label='New Last Name' variant='outlined' onChange={updateLastName} />
-                <FormControl component='fieldset'>
-                    <FormLabel component='legend'>Admin Status</FormLabel>
-                    <RadioGroup aria-label='admin-status' name='admin1' value={newAdmin} onChange={updateAdminStatus}>
-                        <FormControlLabel value='admin' control={<Radio />} label="Admin" />
-                        <FormControlLabel value='standard' control={<Radio />} label="Standard User" />
-                    </RadioGroup>
-                </FormControl>
-                <Button onClick={editUser}>Submit</Button>
-                <Button onClick={cancel}>Cancel</Button>
-                {apiResponse}
-            </form>
+                    <TextField label='New Password' variant='outlined' onChange={updatePassword}
+                        type={hidden ? 'password' : 'text'} />
+                    <TextField label='Re-enter New Password' variant='outlined' onChange={updateConfirmPassword}
+                        type={hidden ? 'password' : 'text'} />
+                    {passwordError && <div>Passwords don't match</div>}
+
+                    <TextField label='New First Name' variant='outlined' onChange={updateFirstName} />
+                    <TextField label='New Last Name' variant='outlined' onChange={updateLastName} />
+                    <FormControl component='fieldset'>
+                        <FormLabel component='legend'>Admin Status</FormLabel>
+                        <RadioGroup aria-label='admin-status' name='admin1' value={newAdmin} onChange={updateAdminStatus}>
+                            <FormControlLabel value='admin' control={<Radio />} label="Admin" />
+                            <FormControlLabel value='standard' control={<Radio />} label="Standard User" />
+                        </RadioGroup>
+                    </FormControl>
+                    <Button onClick={editUser} disabled={passwordError}>Submit</Button>
+                    <Button onClick={cancel}>Cancel</Button>
+                    {apiResponse}
+                </form>
+            </div>
+            <div id='side-column'>
+                <IconButton onClick={switching}>
+                    {hidden ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+                <div>
+
+                </div>
+            </div>
+
         </div>
     )
 }

@@ -15,8 +15,6 @@
 
 body {
     color: #61dafb;
-    /* color: white;
-    background-color: black; */
     padding: 10px;
 }
 
@@ -64,4 +62,15 @@ li {
 .active-user {
     color: black;
     font-weight: bold;
+}
+
+#modal-grid {
+    display: flex;
+    justify-content: center;
+}
+
+#side-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
