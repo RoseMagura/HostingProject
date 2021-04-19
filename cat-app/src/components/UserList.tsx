@@ -11,8 +11,6 @@ const UserList = (props: UserListProps) => {
     const [users, setUsers] = useState<UserInterface[]>([]);
     const [apiResponse, setResponse] = useState('');
 
-    // useEffect(() => console.log(props), []);
-
     const fetchAll = () => {
         const apiUrl = `${process.env.REACT_APP_API_URL}/users/all`;
         fetch(apiUrl)

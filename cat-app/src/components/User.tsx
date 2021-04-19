@@ -21,6 +21,8 @@ const User = (props: UserProps) => {
 
     const [firstName, setFirstName] = useState(user.firstName);
     const [username, setUsername] = useState(user.username);
+    const [lastName, setLastName] = useState(user.lastName);
+    const [adminStatus, setAdminStatus] = useState(user.admin);
 
     const startEditing = () => {
         edit();
@@ -31,10 +33,10 @@ const User = (props: UserProps) => {
         setEditing(false);
         if (obj.changed) {
             if (Number(obj.res.status) === 200) {
-                console.log('OK');
-                
-                // obj.newTitle !== title && setTitle(obj.newTitle);
-                // obj.newUrl !== url && setUrl(obj.newUrl);
+                obj.newFirstName !== firstName && setFirstName(obj.newFirstName);
+                obj.newLastName !== lastName && setLastName(obj.newLastName);
+                obj.newUsername !== username && setUsername(obj.newUsername);
+                obj.newAdminStatus !== adminStatus && setAdminStatus(obj.newAdminStatus);
             }
         }
 
@@ -42,16 +44,16 @@ const User = (props: UserProps) => {
 
     return (
         <div className={active ? 'active-user' : 'inactive'}>
-            <h2>{`${user.firstName} ${user.lastName}`}</h2>
-            <h3>{user.username}</h3>
-            {user.admin ? <h3>Admin</h3> : <h3>Standard User</h3>}
+            <h2>{`${firstName} ${lastName}`}</h2>
+            <h3>{username}</h3>
+            {adminStatus ? <h3>Admin</h3> : <h3>Standard User</h3>}
             {(admin || activeUser === String(user.id)) ? <div>
                 <DefaultButton id={user.id} onClick={deleteFunc} name='Delete' />
                 <EditButton item={user} onClick={startEditing} />
             </div> : null}
-            {editing && <div><UserModal id={user.id} username={user.username}
-                firstName={user.firstName} lastName={user.lastName}
-                password={user.password} admin={user.admin} func={processResponse} /></div>}
+            {editing && <div><UserModal id={user.id} username={username}
+                firstName={firstName} lastName={lastName}
+                password={user.password} admin={adminStatus} func={processResponse} /></div>}
         </div>
     )
 };

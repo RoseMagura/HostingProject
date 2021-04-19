@@ -65,9 +65,6 @@ export const UserModal = (props: UserModalProps) => {
     const editUser = () => {
         const token = localStorage.getItem('token');
 
-        // console.log(newUsername, newPassword, confirmPassword, newFirstName, newLastName, newAdmin);
-        console.log(newPassword === password);
-
         fetch(`${process.env.REACT_APP_API_URL}/login`, {
             method: 'POST',
             headers: {
@@ -81,7 +78,7 @@ export const UserModal = (props: UserModalProps) => {
                 setResponse(data);
             } else {
                 let putBody = {};
-                if(newPassword === password){
+                if (newPassword === password) {
                     putBody = {
                         'username': newUsername,
                         'firstName': newFirstName,
@@ -107,7 +104,7 @@ export const UserModal = (props: UserModalProps) => {
                 }).then(async res => {
                     const data = res;
                     alert((await data.text()).replace(/"/g, ''));
-                    props.func({ 'res': data, changed: true });
+                    props.func({ 'res': data, newFirstName, newLastName, 'newAdminStatus': newAdmin, newUsername, changed: true });
                 }
                 )
             }
