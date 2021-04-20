@@ -9,11 +9,10 @@ interface UserProps {
     user: UserInterface;
     activeUser: string;
     deleteFunc: Function;
-    edit: Function;
 }
 
 const User = (props: UserProps) => {
-    const { user, activeUser, deleteFunc, edit } = props;
+    const { user, activeUser, deleteFunc } = props;
 
     const active = activeUser === String(user.id);
     const admin = localStorage.getItem('admin') === 'true';
@@ -25,7 +24,6 @@ const User = (props: UserProps) => {
     const [adminStatus, setAdminStatus] = useState(user.admin);
 
     const startEditing = () => {
-        edit();
         setEditing(true);
     }
 

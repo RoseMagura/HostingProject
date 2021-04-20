@@ -29,7 +29,7 @@ const Home = (props: BasicProps) => {
     };
 
     const toggleDisplayForm = () => {
-        toggleDisplay(!displayForm); // TODO: Edit
+        toggleDisplay(!displayForm);
     }
 
     const postImage = () => {
@@ -83,7 +83,7 @@ const Home = (props: BasicProps) => {
     return (
         <div>
             <div>
-                <Button onClick={toggleDisplayForm}>Post New Image</Button>
+                {loginStatus && <Button onClick={toggleDisplayForm}>Post New Image</Button>}
                 {displayForm &&
                     <div id="post-form">
                         <TextField 

@@ -24,6 +24,9 @@ export const Image = (myProps: ImageProps) => {
     const [url, setUrl] = useState(myProps.url);
     const [title, setTitle] = useState(myProps.title);
 
+    const admin = localStorage.getItem('admin') === 'true';
+    const userId = localStorage.getItem('id');
+
     const onHover = () => {
         setHover(true);
     }
@@ -125,10 +128,11 @@ export const Image = (myProps: ImageProps) => {
             setLike(newStatus);
         });
     }
+
     return (
         <div>
             <img key={myProps.id} src={url} alt={title} />
-            {loggedIn && <div id='button-bar'>
+            {(admin || String(myProps.userId) === userId) ? <div id='button-bar'>
                 <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
                 <EditButton item={myProps} onClick={updateImage} />
                 {editing && <ImageModal id={myProps.id} title={title} url={url}
@@ -137,7 +141,7 @@ export const Image = (myProps: ImageProps) => {
                     ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />
                     : <DefaultButton id={myProps.id} onClick={likeImage} name='Like' />}
                 <div>{apiResponse}</div>
-            </div>}
+            </div> : null}
             {likes.length > 0 && (
                 <div onMouseEnter={onHover} onMouseLeave={onLeave}>
                     { hover

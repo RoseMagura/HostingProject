@@ -91,7 +91,7 @@ router.delete(
                     });
                     res.send(JSON.stringify(`Deleted ${name} successfully`));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify(
                             "Can't delete: You can only delete others' images if you are an admin."
                         )
@@ -137,7 +137,7 @@ router.put(
                     );
                     res.send(JSON.stringify('Edited image successfully'));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify("Can't edit: You can only edit others' images if you are an admin.")
                     );
                 }

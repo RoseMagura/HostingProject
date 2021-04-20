@@ -20,13 +20,11 @@ body {
 
 img {
     margin: 10px;
-    width: 50%;
-    height: 50%;
 }
 
 #image-grid {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;

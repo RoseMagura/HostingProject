@@ -7,6 +7,9 @@ export const Comment = (props: CommentInterface) => {
     const [editing, setEditing] = useState(false);
     const [text, setText] = useState(props.text);
 
+    const admin = localStorage.getItem('admin') === 'true';
+    const userId = localStorage.getItem('id');
+
     const edit = () => {
         setEditing(true);
     }
@@ -43,8 +46,7 @@ export const Comment = (props: CommentInterface) => {
                 </div>
             }
 
-            {/* TODO: Only visible if admin or the commenter */}
-            {props.loginStatus &&
+            {(admin || String(props.userId) === userId) &&
                 <div>
                     <DefaultButton onClick={() => props.delete(props.id)} name='Delete' />
                     <DefaultButton onClick={edit} name='Edit' />

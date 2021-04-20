@@ -112,7 +112,7 @@ router.delete(
                     });
                     res.send(JSON.stringify(`Deleted like successfully`));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         "Can't delete: You can only delete others' likes if you are an admin."
                     );
                 }

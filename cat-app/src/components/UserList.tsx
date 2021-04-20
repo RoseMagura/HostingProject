@@ -39,10 +39,6 @@ const UserList = (props: UserListProps) => {
         }
     }
 
-    const editUser = () => {
-        console.log('editing');
-    }
-
     useEffect(fetchAll, []);
 
     return (
@@ -51,12 +47,12 @@ const UserList = (props: UserListProps) => {
                 {users.map(user =>
                     <li key={user.id}>
                         <User user={user} activeUser={String(props.value)}
-                            deleteFunc={deleteUser} edit={editUser} />
-                        {apiResponse}
+                            deleteFunc={deleteUser} />
                     </li>
                 )
                 }
             </ul>
+            {apiResponse}
         </div>
     )
 };

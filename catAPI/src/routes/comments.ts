@@ -153,7 +153,7 @@ router.put(
                     );
                     res.send(JSON.stringify('Edited comment successfully'));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify(
                             "Can't edit: You can only edit others' comments if you are an admin."
                         )

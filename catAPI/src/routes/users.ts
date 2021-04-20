@@ -113,7 +113,7 @@ router.delete(
                     });
                     res.send(JSON.stringify(`Deleted user successfully`));
                 } else {
-                    res.send(
+                    res.status(403).send(
                         JSON.stringify(
                             "Can't delete: You can only delete other users if you are an admin."
                         )
