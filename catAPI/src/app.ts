@@ -27,16 +27,14 @@ declare global {
 }
 
 if (process.env.NODE_ENV === "production") {
-  console.log("RUNNING IN", process.env.NODE_ENV);
+  app.use(express.static(path.join(__dirname, "/../src/build")));
 
-  app.use("/static", express.static(path.join(__dirname, "build")));
 }
 
-// app.use(express.static('public'));
 
-// app.get('/', (req: Request, res: Response): void => {
-//     res.send(JSON.stringify('Send a request to the backend'));
-// });
+app.get('/', (req: Request, res: Response): void => {
+  res.sendFile('build/index.html');
+});
 
 app.post(
   "/login",
