@@ -65,7 +65,7 @@ export const UserModal = (props: UserModalProps) => {
         setLastName(event.target.value);
     }
 
-    const updateAdminStatus = (event: any) => {
+    const updateAdminStatus = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAdmin(event.target.value);
     }
 

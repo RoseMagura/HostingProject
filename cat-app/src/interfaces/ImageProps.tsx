@@ -4,7 +4,7 @@ export interface ImageProps {
     title: string;
     userId?: number;
     url: string;
-    createdAt?: any;
-    updatedAt?: any;
+    createdAt?: string;
+    updatedAt?: string;
     delete: Function;
 }
