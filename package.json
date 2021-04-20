@@ -12,7 +12,7 @@
     "frontend:deploy": "cd cat-app && npm run deploy",
     "frontend:start": "cd cat-app && npm run start",
     "backend:start": "cd catAPI && npm run dev",
-    "start": "cd catAPI && npm install && npm run prod"
+    "start": "cd catAPI && npm install --production=false && npm run prod"
   },
   "repository": {
     "type": "git",
