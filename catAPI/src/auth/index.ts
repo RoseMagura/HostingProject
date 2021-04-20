@@ -13,6 +13,7 @@ export const authOptions = (
         const token = authHeader?.split(' ')[1];
         const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
         req.user = decoded;
+        console.log('req.user', req.user);
         next();
     } catch (error: any) {
         console.error(error);
@@ -34,7 +35,6 @@ export const issueToken = async (username: string, password: string, res: Respon
         console.error('User is null or undefined');
         res.send(JSON.stringify('Failed to login: User is null'));
     } else {
-        console.log(password);
         await bcrypt.compare(
             password,
             String(user?.get('password')),

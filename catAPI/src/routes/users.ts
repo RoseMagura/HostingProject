@@ -46,7 +46,7 @@ router.post(
         const { username, password, firstName, lastName } = req.body;
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const postResult = await User.create({
+            await User.create({
                 username,
                 password: hashedPassword,
                 firstName,
@@ -71,7 +71,7 @@ router.post(
         try {
             if (req.user?.admin) {
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const dbResult = await User.create({
+                await User.create({
                     username,
                     password: hashedPassword,
                     firstName,
@@ -170,6 +170,7 @@ router.put(
     authOptions,
     async (req: Request, res: Response): Promise<void> => {
         const id = req.params.id;
+        // console.log(id, req.user);
         try {
             const user = await User.findByPk(id);
             if (user === null) {
@@ -179,7 +180,7 @@ router.put(
             } else {
                 // admin users can edit any users, but regular users
                 // can only edit their own data
-                if (req.user?.admin || id === String(req.user?.id)) {
+                if (req.user?.admin || id === String(req.user?.userId)) {
                     const {
                         username,
                         password,
@@ -187,6 +188,11 @@ router.put(
                         lastName,
                         admin
                     } = req.body;
+
+                    if(admin === true && !req.user?.admin) {
+                        res.status(403).send(JSON.stringify('Can\'t change admin status'));
+                        return;
+                    }
 
                     if (password !== undefined) {
                         const hashedPassword = await bcrypt.hash(password, 10);

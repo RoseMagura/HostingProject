@@ -11,7 +11,8 @@
     "backend:build": "cd catAPI && npm run build",
     "frontend:deploy": "cd cat-app && npm run deploy",
     "frontend:start": "cd cat-app && npm run start",
-    "backend:start": "cd catAPI && npm run dev"
+    "backend:start": "cd catAPI && npm run dev",
+    "start": "npm run backend:start"
   },
   "repository": {
     "type": "git",

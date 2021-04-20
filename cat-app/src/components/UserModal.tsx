@@ -38,6 +38,7 @@ export const UserModal = (props: UserModalProps) => {
     const [origPwd, setOrigPwd] = useState('');
     const [passwordError, setPwdErr] = useState(false);
 
+    const currUserStatus = localStorage.getItem('admin') === 'true';
 
     const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -142,7 +143,7 @@ export const UserModal = (props: UserModalProps) => {
                     <FormControl component='fieldset'>
                         <FormLabel component='legend'>Admin Status</FormLabel>
                         <RadioGroup aria-label='admin-status' name='admin1' value={newAdmin} onChange={updateAdminStatus}>
-                            <FormControlLabel value='admin' control={<Radio />} label="Admin" />
+                            <FormControlLabel value='admin' disabled={!currUserStatus} control={<Radio />} label="Admin" />
                             <FormControlLabel value='standard' control={<Radio />} label="Standard User" />
                         </RadioGroup>
                     </FormControl>
@@ -159,7 +160,6 @@ export const UserModal = (props: UserModalProps) => {
 
                 </div>
             </div>
-
         </div>
     )
 }
