@@ -52,8 +52,6 @@ const Login = (props: BasicProps) => {
                 localStorage.setItem('admin', cred.admin);
                 localStorage.setItem('token', cred.token);
 
-                console.log(cred.token);
-
                 props.onChange !== undefined && props.onChange(true);
                 // redirect to home
                 history.push('/');

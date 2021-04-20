@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 const App = () => {
     const user = localStorage.getItem('id');
-    console.log(user);
     const [loginStatus, setStatus] = useState(user !== undefined && user !== null);
 
     const logout = () => {
@@ -18,7 +17,6 @@ const App = () => {
         localStorage.removeItem('token');
         const newStatus = false;
         setStatus(newStatus);
-        console.log('logging out');
     };
 
     const update = (result: boolean) => {
@@ -27,13 +25,13 @@ const App = () => {
 
     return (
         <div className="App">
-            <AppHeader value={loginStatus} onChange={logout}/>
-            <Route exact path='/' render={() => (<Home value={loginStatus}/>)}/>
-            <Route path='/login' 
+            <AppHeader value={loginStatus} onChange={logout} />
+            <Route exact path='/' render={() => (<Home value={loginStatus} />)} />
+            <Route path='/login'
                 render={() => (<Login onChange={update} />)}
-             />
-            <Route path='/users' render={() => (<UserList value={user}/>)}/>
-            <Route path='/signup' component={Signup}/>
+            />
+            <Route path='/users' render={() => (<UserList value={user} />)} />
+            <Route path='/signup' component={Signup} />
         </div>
     );
 }
