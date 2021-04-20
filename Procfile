@@ -1,1 +1,1 @@
-web: npm run frontend:start
+web: npm run frontend:install && frontend:start
