@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd cat-app && npm run test && cd ../catAPI && npm run test",
+    "test": "cd cat-app && npm run test && cd ../CatAPI && npm run test",
     "frontend:install": "cd cat-app && npm install",
-    "backend:install": "cd catAPI && npm install",
+    "backend:install": "cd CatAPI && npm install",
     "frontend:build": "cd cat-app && npm run build",
-    "backend:build": "cd catAPI && npm run build",
+    "backend:build": "cd CatAPI && npm run build",
     "frontend:deploy": "cd cat-app && npm run deploy",
     "frontend:start": "cd cat-app && npm run start",
-    "backend:start": "cd catAPI && npm run dev",
+    "backend:start": "cd CatAPI && npm run dev",
     "start": "cd CatAPI && npm run prod"
   },
   "repository": {
