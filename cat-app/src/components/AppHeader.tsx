@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import './App.scss';
+import './App.css';
 import { NavLink } from 'react-router-dom';
 import { BasicProps } from '../interfaces/BasicProps';
 

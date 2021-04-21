@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import './App.scss';
+import './App.css';
 import { Link } from 'react-router-dom';
 import { useState, FormEvent } from 'react';
 

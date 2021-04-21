@@ -7,7 +7,7 @@ import {
     Typography,
     IconButton,
 } from '@material-ui/core';
-import './App.scss';
+import './App.css';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import { Link } from 'react-router-dom';
