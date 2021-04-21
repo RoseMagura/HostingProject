@@ -4,6 +4,10 @@ import { NavLink } from 'react-router-dom';
 import { BasicProps } from '../interfaces/BasicProps';
 
 export const AppHeader = (props: BasicProps) => {
+    // console.log(props.onChange);
+    const onChange = () => {
+        console.log('I was clicked');
+    }
     return (
         <div className="title">
             <AppBar position="static" style={{ background: '#61dafb' }}>
@@ -29,13 +33,11 @@ export const AppHeader = (props: BasicProps) => {
                         !props.value ? (
                             <NavLink to="/login"
                                 activeStyle={{ display: 'none' }}
-
                             >
                                 <Button id="headerBtn">Login</Button>
                             </NavLink>
                         ) : (
-                            // <div>???</div>
-                            <Button id="headerBtn" onClick={() => props.onChange}>
+                            <Button id="headerBtn" onClick={() => props.onChange()}>
                                 Logout
                             </Button>
                         )

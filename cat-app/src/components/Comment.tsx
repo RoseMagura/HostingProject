@@ -30,11 +30,11 @@ export const Comment = (props: CommentInterface) => {
     return (
         <div>
             {editing
-                ? <div>
+                ? <div id='modal-grid'>
                     {`${props.user !== undefined && props.user.firstName} ${props.user !== undefined && props.user.lastName}:`}
                     <TextField
                         type='text'
-                        placeholder={String(props.text)}
+                        value={text}
                         onChange={handleChange}
                     ></TextField>
                     <Button onClick={submit}>Submit Changes</Button>

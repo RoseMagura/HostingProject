@@ -12,6 +12,7 @@ const App = () => {
     const [loginStatus, setStatus] = useState(user !== undefined && user !== null);
 
     const logout = () => {
+        console.log('logging out');
         localStorage.removeItem('id');
         localStorage.removeItem('admin');
         localStorage.removeItem('token');
@@ -26,7 +27,7 @@ const App = () => {
     return (
         <div className="App">
             <AppHeader value={loginStatus} onChange={logout} />
-            <Route exact path='/' render={() => (<Home value={loginStatus} />)} />
+            <Route exact path='/' render={() => (<Home value={loginStatus} onChange={logout} />)} />
             <Route path='/login'
                 render={() => (<Login onChange={update} />)}
             />

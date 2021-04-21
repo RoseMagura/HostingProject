@@ -66,7 +66,6 @@ export const Image = (myProps: ImageProps) => {
                 const commentList = await res.json();
                 if (commentList.length > 0) {
                     setComments(commentList);
-                    // TODO: Filter to see which belong to currently logged in user
                 }
             }
         )

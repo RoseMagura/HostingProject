@@ -6,7 +6,7 @@
 
 I created this project as part of the Udacity Javascript Fullstack
 Nanodegree to demonstrate proper public hosting techniques. You
-can access a fullstack application on AWS which allows users to view
+can access a fullstack application on Heroku which allows users to view
 images of cats.
 
 ## Installation
@@ -16,8 +16,8 @@ Run `npm run frontend:install` and
 
 ## Usage
 
-Go to the link [here](http://elasticbeanstalk-us-east-1-986292402400.s3-website-us-east-1.amazonaws.com/) to access the frontend, which is hosted with 
-Amazon S3. Note: This link is temporarily disabled. I will update later.
+Go to the link [here](https://immense-beach-34253.herokuapp.com/) to access the frontend, which is hosted with 
+Heroku.
 
 ## Tests
 

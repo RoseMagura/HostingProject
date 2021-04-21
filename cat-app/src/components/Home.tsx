@@ -85,7 +85,7 @@ const Home = (props: BasicProps) => {
             <div>
                 {loginStatus && <Button onClick={toggleDisplayForm}>Post New Image</Button>}
                 {displayForm &&
-                    <div id="post-form">
+                    <div id="image-grid">
                         <TextField 
                             id='title'
                             label='title'
