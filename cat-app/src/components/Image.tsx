@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { EditButton } from './EditButton';
 import { DefaultButton } from './DefaultButton';
 import { CommentList } from './CommentList';
-import { ImageModal} from './ImageModal';
+import { ImageModal } from './ImageModal';
 
 import { Like } from '../interfaces/Like';
 import { ImageProps } from '../interfaces/ImageProps';
@@ -81,7 +81,7 @@ export const Image = (myProps: ImageProps) => {
     const updateRes = async (obj: EditImageResponse) => {
         setEditing(false);
         if (obj.changed) {
-            const info = await obj.res.json(); 
+            const info = await obj.res.json();
             setResponse(String(info));
 
             if (Number(obj.res.status) === 200) {
@@ -131,16 +131,19 @@ export const Image = (myProps: ImageProps) => {
     return (
         <div>
             <img key={myProps.id} src={url} alt={title} />
-            {(admin || String(myProps.userId) === userId) ? <div id='button-bar'>
-                <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
-                <EditButton item={myProps} onClick={updateImage} />
-                {editing && <ImageModal id={myProps.id} title={title} url={url}
-                    func={updateRes} />}
+            {<div id='button-bar'>
+                {(admin || String(myProps.userId) === userId) ?
+                    <div>
+                        <DefaultButton id={myProps.id} onClick={myProps.delete} name='Delete' />
+                        <EditButton item={myProps} onClick={updateImage} />
+                        {editing && <ImageModal id={myProps.id} title={title} url={url}
+                            func={updateRes} />}
+                    </div> : null}
                 {alreadyLiked
                     ? <DefaultButton id={myLike?.id} onClick={deleteLike} name='Unlike' />
                     : <DefaultButton id={myProps.id} onClick={likeImage} name='Like' />}
                 <div>{apiResponse}</div>
-            </div> : null}
+            </div>}
             {likes.length > 0 && (
                 <div onMouseEnter={onHover} onMouseLeave={onLeave}>
                     { hover
