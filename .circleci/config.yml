@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   node: circleci/node@4.2.0
-  # aws-cli: circleci/aws-cli@1.3.1
 jobs:
   build:
     # Primary container image where all commands run
@@ -12,17 +11,9 @@ jobs:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
           
-    # Service container image
-    
-      - image: circleci/postgres:9.6.5-alpine-ram
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-
     steps:
       - node/install
       - checkout
-      # - aws-cli/setup
       - run: 
           name: Front-End Install
           command: 
@@ -31,12 +22,3 @@ jobs:
           name: Back-End Install
           command: 
             npm run backend:install 
-      # - run: 
-      #     name: Build Frontend
-      #     command: npm run frontend:build
-      # - run: 
-      #     name: Build Backend
-      #     command: npm run backend:build
-      - run: 
-          name: Run Jest Tests 
-          command: npm run test
