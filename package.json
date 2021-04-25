@@ -26,5 +26,8 @@
   "homepage": "https://github.com/RoseMagura/HostingProject#readme",
   "devDependencies": {
     "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "db-migrate": "^0.11.12"
   }
 }

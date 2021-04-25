@@ -18,10 +18,13 @@ const Signup = () => {
     const [loginStatus, setStatus] = useState('');
     const [hidden, toggleShow] = useState(true);
 
+    const [usernameError, setUsernameErr] = useState('');
+    const [passwordError, setPwdErr] = useState('');
+
     const switching = (
-        ) => {
-            toggleShow(!hidden);
-        }
+    ) => {
+        toggleShow(!hidden);
+    }
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -61,18 +64,28 @@ const Signup = () => {
         event: React.ChangeEvent<HTMLInputElement>
     ): void => {
         setUsername(event.target.value);
+        event.target.value.length < 5
+            ? setUsernameErr('Username is too short.')
+            : setUsernameErr('');
+
     };
 
     const updatePassword = (
         event: React.ChangeEvent<HTMLInputElement>
     ): void => {
         setPassword(event.target.value);
+        event.target.value.length < 8
+            ? setPwdErr('Password is too short.')
+            : setPwdErr('');
+
     };
 
     const updateRepeat = (
         event: React.ChangeEvent<HTMLInputElement>
     ): void => {
         setRepeat(event.target.value);
+        event.target.value !== password
+            ? setPwdErr('Passwords don\'t match.') : setPwdErr('');
     };
 
     const updateFirstName = (
@@ -96,7 +109,9 @@ const Signup = () => {
                         label="Username"
                         variant="outlined"
                         onChange={updateUsername}
+                        required
                     />
+                    {usernameError !== '' && usernameError}
                     <TextField
                         id="password"
                         label="Password"
@@ -111,6 +126,7 @@ const Signup = () => {
                         type={hidden ? 'password' : 'text'}
                         onChange={updateRepeat}
                     />
+                    {passwordError !== '' && passwordError}
                     <TextField
                         id="first-name"
                         label="First Name"

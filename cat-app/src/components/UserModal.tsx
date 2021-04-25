@@ -36,16 +36,23 @@ export const UserModal = (props: UserModalProps) => {
     admin ? val = 'admin' : val = 'standard';
     const [newAdmin, setAdmin] = useState(val);
     const [origPwd, setOrigPwd] = useState('');
-    const [passwordError, setPwdErr] = useState(false);
+    const [passwordError, setPwdErr] = useState('');
+    const [usernameError, setUsernameErr] = useState('');
 
     const currUserStatus = localStorage.getItem('admin') === 'true';
 
     const updateUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
+        event.target.value.length < 5
+            ? setUsernameErr('Username is too short.')
+            : setUsernameErr('');
     }
 
     const updatePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
+        event.target.value.length < 8
+            ? setPwdErr('Password is too short.')
+            : setPwdErr('');
     }
 
     const updatePrevPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +61,8 @@ export const UserModal = (props: UserModalProps) => {
 
     const updateConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfirmPassword(event.target.value);
-        setPwdErr(event.target.value !== newPassword);
+        event.target.value !== newPassword
+            ? setPwdErr('Passwords don\'t match.') : setPwdErr('');
     }
 
     const updateFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,6 +137,7 @@ export const UserModal = (props: UserModalProps) => {
             <div id='main-column'>
                 <form>
                     <TextField label='New Username' variant='outlined' onChange={updateUsername} />
+                    {usernameError !== '' && usernameError}
                     <TextField label='Original Password' variant='outlined' onChange={updatePrevPassword}
                         type={hidden ? 'password' : 'text'} />
 
@@ -136,7 +145,7 @@ export const UserModal = (props: UserModalProps) => {
                         type={hidden ? 'password' : 'text'} />
                     <TextField label='Re-enter New Password' variant='outlined' onChange={updateConfirmPassword}
                         type={hidden ? 'password' : 'text'} />
-                    {passwordError && <div>Passwords don't match</div>}
+                    {passwordError !== '' && passwordError}
 
                     <TextField label='New First Name' variant='outlined' onChange={updateFirstName} />
                     <TextField label='New Last Name' variant='outlined' onChange={updateLastName} />
@@ -147,7 +156,7 @@ export const UserModal = (props: UserModalProps) => {
                             <FormControlLabel value='standard' control={<Radio />} label="Standard User" />
                         </RadioGroup>
                     </FormControl>
-                    <Button onClick={editUser} disabled={passwordError}>Submit</Button>
+                    <Button onClick={editUser} disabled={passwordError !== ''}>Submit</Button>
                     <Button onClick={cancel}>Cancel</Button>
                     {apiResponse}
                 </form>
